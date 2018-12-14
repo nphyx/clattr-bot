@@ -27,6 +27,9 @@ Icon
 .nyc_output
 coverage
 
+## environment variables ##
+.env
+
 
 # Thumbnails
 ._*
