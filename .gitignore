@@ -1,0 +1,50 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+
+pids
+logs
+output
+results
+
+node_modules
+npm-debug.log
+output
+
+## OSX Generated Files ##
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+## nyc coverage ##
+.nyc_output
+coverage
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+## Windows Generated Files ##
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# .vimrc overrides for code style compliance don't need to be shared
+.vimrc
