@@ -24,21 +24,20 @@ Every roll starts with `!r ` - that tells the bot to pay attention and read the 
 
 Here's a full breakdown of a single dice roll, with some examples:
 
-|             | count | type  |  size | target | rule  |       | max    | modifier | tag | result |
-|-------------|-------|-------|-------|--------|-------|-------|--------|----------|-----|--------|
-| accepts     | [int] | d,p,f | [int] | t[int] | !,k,l | [int] | m[max] | +/-[int] |     |        |
-|             |       |       |       |        |       |       |        |          |     |        |
-| Examples    |       |       |       |        |       |       |        |          |     |        |
-| 1d20 #hit   | 1     | d     | 20    |        |       |       |        |          | hit | roll 1d20, with the tag 'hit' |
-| 2d20k1+3    | 2     | d     | 20    |        | k     | 1     |        | +3       |     | roll 2 d20s, keep the highest, and add 3 |
-| 4d20l2-1    | 2     | d     | 20    |        | k     | 2     |        | -3       |     | roll 2 d20s, keep the lowest 2, and subtract 3 |
-| 3d6!        | 3     | d     | 6     |        | !     |       |        |          |     | roll 3 exploding d6s |
-| 3d6!5       | 3     | d     | 6     |        | !     |       | m1     |          |     | roll 3 exploding d6s that explode on 5 or 6 |
-| 3d6!m1      | 3     | d     | 6     |        | !     |       | m1     |          |     | roll 3 exploding d6s, but they only explode once |
-| 3d6!5m1     | 3     | d     | 6     |        | !     |       | m1     |          |     | roll 3 exploding d6s that explode on 5 or 6, but they only explode once |
-| 3p6t4       | 3     | p     | 6     | t4     |       |       |        |          |     | roll a pool of 3d6, counting 4 or higher as a hit |
-| 3p6t4!      | 3     | p     | 6     | t4     | !     |       |        |          |     | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
-| 4f+3        | 4     | f     | 3     |        |       |       |        | +3       |     | roll 4 fate dice, add 3 to the result |
+|             | count | type  |  size | target | rule        | max   | mod    | tag      | result |
+|-------------|-------|-------|-------|--------|-------------|-------|--------|----------|--------|
+|  accepts    | [int] | d,p,f | [int] | t[int] | !,k,l[int]  | [int] | m[int] | +/-[int] |        |
+| **Examples**|       |       |       |        |             |       |        |          |        |
+| `1d20 #hit` | 1     | d     | 20    |        |             |       |        | hit      | roll 1d20, with the tag 'hit' |
+| `2d20k1+3`  | 2     | d     | 20    |        | k1          |       | +3     |          | roll 2 d20s, keep the highest, and add 3 |
+| `4d20l2-1`  | 2     | d     | 20    |        | k2          |       | -3     |          | roll 2 d20s, keep the lowest 2, and subtract 3 |
+| `3d6!`      | 3     | d     | 6     |        | !           |       |        |          | roll 3 exploding d6s |
+| `3d6!5`     | 3     | d     | 6     |        | !5          |       | m1     |          | roll 3 exploding d6s that explode on 5 or 6 |
+| `3d6!m1`    | 3     | d     | 6     |        | !           |       | m1     |          | roll 3 exploding d6s, but they only explode once |
+| `3d6!5m1`   | 3     | d     | 6     |        | !5          |       | m1     |          | roll 3 exploding d6s that explode on 5 or 6, but they only explode once |
+| `3p6t4`     | 3     | p     | 6     | t4     |             |       |        |          | roll a pool of 3d6, counting 4 or higher as a hit |
+| `3p6t4!`    | 3     | p     | 6     | t4     | !           |       |        |          | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
+| `4f+3`      | 4     | f     | 3     |        |             |       |        | +3       | roll 4 fate dice, add 3 to the result |
 
 An explanation of the columns:
 
