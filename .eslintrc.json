@@ -8,10 +8,6 @@
 	"extends": "eslint:recommended",
 	"parserOptions": {
 		"ecmaVersion": 8,
-		"ecmaFeatures": {
-			"experimentalObjectRestSpread": true,
-			"jsx": true
-		},
 		"sourceType": "module"
 	},
 	"globals": {
@@ -37,7 +33,7 @@
     "camelcase": [2, {"properties": "never"}],
     "comma-dangle": [2, "never"],
     "comma-style": [2, "last"],
-    "curly": [2, "all"],
+    "curly": [2, "multi"],
     "dot-notation": 2,
     "eol-last": 2,
     "indent": [2, 2, {"MemberExpression":1, "SwitchCase": 1}],
