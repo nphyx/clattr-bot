@@ -177,7 +177,9 @@ describe('the dice module', () => {
     it('should default to 1 die when count is omitted', () => {
       handleGroup('d20').count.should.eql(1)
       handleGroup('p10').count.should.eql(1)
-      handleGroup('f3').count.should.eql(1)
+    })
+    it('should default to 4 for fate rolls', () => {
+      handleGroup('f').count.should.eql(4)
     })
     it('should supply default die size when size is omitted', () => {
       handleGroup('8d').count.should.eql(8)
