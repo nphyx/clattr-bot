@@ -8,8 +8,8 @@ client.once('ready', () => {
 
 client.on('message', (message) => {
   const response = commands.handle(message)
-  if (response) message.channel.send(response)
-    .then(() => message.delete())
+  if (response) message.delete()
+    .then(() => message.channel.send(response))
     .catch((e) => console.log(e))
 })
 

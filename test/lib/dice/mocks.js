@@ -1,7 +1,7 @@
-const types = require('../../../lib/dice/types')
+const { pieceTypes } = require('../../../lib/dice/constants')
 
-const mockDie = (size, result, type = types.DIE) => ({ size, result, type })
-const mockFateDie = (size, result) => ({ size, result, type: types.FATE_DIE })
-const mockMod = (modifier) => ({ modifier, result: modifier, type: types.MOD })
+const mockDie = (size, result, marker) => ({ size, result, type: pieceTypes.POLY, marker })
+const mockFateDie = (size, result) => ({ size, result, type: pieceTypes.FATE })
+const mockMod = (modifier) => ({ modifier, result: modifier, type: pieceTypes.MOD })
 
 module.exports = { mockDie, mockFateDie, mockMod }

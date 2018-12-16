@@ -47,7 +47,7 @@
     "no-mixed-spaces-and-tabs": 2,
     "no-trailing-spaces": 2,
     "no-underscore-dangle": 0,
-    "no-unused-vars":0,
+    "no-unused-vars":2,
     "no-use-before-define": ["error", {"functions": false, "classes": true}],
     "no-with": 2,
     "one-var": 0, 

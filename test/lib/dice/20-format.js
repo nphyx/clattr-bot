@@ -1,39 +1,49 @@
-const { formatDie, formatPoolDie, formatGroupDice, formatSetGroups, formatRoll } = require('../../../lib/dice/format')
-const { fateDiceUnicode } = require('../../../lib/dice/maps')
-const types = require('../../../lib/dice/types')
+const {
+  formatPiece,
+  formatPieceWithMarker,
+  formatGroupDice,
+  formatSetGroups,
+  formatRoll
+} = require('../../../lib/dice/format')
+const { strings } = require('../../../lib/dice/maps')
+const { pieceMarkers, rollTypes } = require('../../../lib/dice/constants')
 const { mockDie, mockFateDie, mockMod } = require('./mocks')
 
 const mockGroup1 = {
   string: '3d6',
+  original: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3)],
   dice: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3)],
-  type: types.GROUP,
+  type: rollTypes.SUM,
   result: 10
 }
 const groupString1 = '3d6 [ 2, 5, 3 ]'
 const mockGroup2 = {
   string: '1d4',
+  original: [mockDie(4, 1)],
   dice: [mockDie(4, 1)],
-  type: types.GROUP,
+  type: rollTypes.SUM,
   result: 1
 }
 const groupString2 = '1d4 [ 1 ]'
 
 const mockPool = {
   string: '3p6',
-  dice: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3)],
+  original: [mockDie(6, 2), mockDie(6, 5, pieceMarkers.HIT), mockDie(6, 3)],
+  dice: [mockDie(6, 2), mockDie(6, 5, pieceMarkers.HIT), mockDie(6, 3)],
   target: 4,
-  type: types.POOL,
+  type: rollTypes.POOL,
   result: 1
 }
 const poolString = '6 [ 2, **5**, 3 ]'
 
 const mockFatePool = {
   string: '4f',
-  dice: [mockFateDie(3, '+'), mockFateDie(3, '-'), mockFateDie(3, ' ')],
-  type: types.FATE_POOL,
+  original: [mockFateDie(3, 1), mockFateDie(3, -1), mockFateDie(3, 0)],
+  dice: [mockFateDie(3, 1), mockFateDie(3, -1), mockFateDie(3, 0)],
+  type: rollTypes.FATE,
   result: 0
 }
-const fatePoolString = `3 [ ${fateDiceUnicode.get('+')}, ${fateDiceUnicode.get('-')}, ${fateDiceUnicode.get(' ')} ]`
+const fatePoolString = `3 [ ${strings.fateDieFaces.get(1)}, ${strings.fateDieFaces.get(-1)}, ${strings.fateDieFaces.get(0)} ]`
 
 const mockSet = {
   string: '1d4+3d6+3',
@@ -63,34 +73,36 @@ const mockRoll = {
   sets: [mockPoolSet, mockSet]
 }
 
+/*
 const mockSingleRoll = {
   string: '3p6',
   sets: [mockPoolSet]
 }
+*/
 
 describe('dice::format module', () => {
-  describe('formatDie', () => {
+  describe('formatPiece', () => {
     it('should handle normal dice', () => {
-      formatDie(mockDie(10, 3)).should.eql('3')
-    })
-    it('should handle kept dice', () => {
-      formatDie(mockDie(10, 3, types.KEPT)).should.eql('**3**')
-    })
-    it('should handle exploded dice', () => {
-      formatDie(mockDie(10, 3, types.EXPLODED)).should.eql('3:boom:')
+      formatPiece(mockDie(10, 3)).should.eql('3')
     })
     it('should handle fate dice', () => {
-      formatDie(mockFateDie(3, '+')).should.eql(fateDiceUnicode.get('+'))
-      formatDie(mockFateDie(3, '-')).should.eql(fateDiceUnicode.get('-'))
-      formatDie(mockFateDie(3, ' ')).should.eql(fateDiceUnicode.get(' '))
+      formatPiece(mockFateDie(3, 1)).should.eql(strings.fateDieFaces.get(1))
+      formatPiece(mockFateDie(3, -1)).should.eql(strings.fateDieFaces.get(-1))
+      formatPiece(mockFateDie(3, 0)).should.eql(strings.fateDieFaces.get(0))
     })
   })
-  describe('formatPoolDie', () => {
-    it('should highlight a hit', () => {
-      formatPoolDie(7)(mockDie(10, 7)).should.eql('**7**')
+  describe('formatPieceWithMarker', () => {
+    it('should handle kept dice', () => {
+      formatPieceWithMarker(mockDie(10, 3, pieceMarkers.KEPT)).should.eql('**3**')
     })
-    it('should not highlight a miss', () => {
-      formatPoolDie(7)(mockDie(10, 3)).should.eql('3')
+    it('should handle exploded dice', () => {
+      formatPieceWithMarker(mockDie(10, 3, pieceMarkers.EXPLODED)).should.eql('3:boom:')
+    })
+    it('should highlight a hit', () => {
+      formatPieceWithMarker(mockDie(10, 7, pieceMarkers.HIT)).should.eql('**7**')
+    })
+    it('should not change unmarked pieces', () => {
+      formatPieceWithMarker(mockDie(10, 3)).should.eql('3')
     })
   })
   describe('formatGroupDice', () => {

@@ -1,4 +1,4 @@
-const { sum, sumDice, toFateDice } = require('../../../lib/dice/util')
+const { sum, sumResults } = require('../../../lib/dice/util')
 const { mockDie } = require('./mocks')
 
 describe('the dice::util module', () => {
@@ -7,9 +7,9 @@ describe('the dice::util module', () => {
       [1, 2, 3].reduce(sum, 0).should.eql(6)
     })
   })
-  describe('sumDice', () => {
+  describe('sumResults', () => {
     it('should sum the result of a set of dice', () => {
-      [mockDie(6, 3), mockDie(6, 2)].reduce(sumDice, 0).should.eql(5)
+      sumResults([mockDie(6, 3), mockDie(6, 2)]).should.eql(5)
     })
   })
 })
