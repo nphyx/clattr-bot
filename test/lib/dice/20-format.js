@@ -1,19 +1,20 @@
 const {
   formatPiece,
   formatPieceWithMarker,
-  formatGroupDice,
+  formatGroup,
   formatSetGroups,
   formatRoll
 } = require('../../../lib/dice/format')
 const { strings } = require('../../../lib/dice/maps')
-const { pieceMarkers, rollTypes } = require('../../../lib/dice/constants')
-const { mockDie, mockFateDie, mockMod } = require('./mocks')
+const { pieceMarkers, rollTypes, combinatorTypes } = require('../../../lib/dice/constants')
+const { mockDie, mockFateDie } = require('./mocks')
 
 const mockGroup1 = {
   string: '3d6',
   original: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3)],
   dice: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3)],
   type: rollTypes.SUM,
+  op: combinatorTypes.ADD,
   result: 10
 }
 const groupString1 = '3d6 [ 2, 5, 3 ]'
@@ -22,6 +23,7 @@ const mockGroup2 = {
   original: [mockDie(4, 1)],
   dice: [mockDie(4, 1)],
   type: rollTypes.SUM,
+  op: combinatorTypes.ADD,
   result: 1
 }
 const groupString2 = '1d4 [ 1 ]'
@@ -32,6 +34,7 @@ const mockPool = {
   dice: [mockDie(6, 2), mockDie(6, 5, pieceMarkers.HIT), mockDie(6, 3)],
   target: 4,
   type: rollTypes.POOL,
+  op: combinatorTypes.ADD,
   result: 1
 }
 const poolString = '6 [ 2, **5**, 3 ]'
@@ -41,14 +44,22 @@ const mockFatePool = {
   original: [mockFateDie(3, 1), mockFateDie(3, -1), mockFateDie(3, 0)],
   dice: [mockFateDie(3, 1), mockFateDie(3, -1), mockFateDie(3, 0)],
   type: rollTypes.FATE,
+  op: combinatorTypes.ADD,
   result: 0
 }
 const fatePoolString = `3 [ ${strings.fateDieFaces.get(1)}, ${strings.fateDieFaces.get(-1)}, ${strings.fateDieFaces.get(0)} ]`
 
+const mockModifier = {
+  string: '3',
+  type: rollTypes.MOD,
+  op: combinatorTypes.ADD,
+  result: 3
+}
+
 const mockSet = {
   string: '1d4+3d6+3',
   result: 14,
-  groups: [mockGroup1, mockGroup2, mockMod(3)],
+  groups: [mockGroup1, mockGroup2, mockModifier],
   comment: 'sneak attack'
 }
 const mockSetString = `( \u2684 ${groupString1} + ${groupString2} + 3 = 14 )`
@@ -62,10 +73,10 @@ const mockPoolSetString = `( \u2684 ${poolString} = 1 )`
 
 const mockFateSet = {
   string: '4f+3',
-  groups: [mockFatePool],
+  groups: [mockFatePool, mockModifier],
   result: 3
 }
-const mockFateSetString = `( \u2684 ${fatePoolString} = 3 )`
+const mockFateSetString = `( \u2684 ${fatePoolString} + 3 = 3 )`
 
 
 const mockRoll = {
@@ -105,16 +116,19 @@ describe('dice::format module', () => {
       formatPieceWithMarker(mockDie(10, 3)).should.eql('3')
     })
   })
-  describe('formatGroupDice', () => {
+  describe('formatGroup', () => {
     it('should format a dice sum group', () => {
-      formatGroupDice(mockGroup1).should.eql(groupString1)
-      formatGroupDice(mockGroup2).should.eql(groupString2)
+      formatGroup(mockGroup1).should.eql(groupString1)
+      formatGroup(mockGroup2).should.eql(groupString2)
     })
     it('should format a dice pool group', () => {
-      formatGroupDice(mockPool).should.eql(poolString)
+      formatGroup(mockPool).should.eql(poolString)
     })
     it('should format a fate pool group', () => {
-      formatGroupDice(mockFatePool).should.eql(fatePoolString)
+      formatGroup(mockFatePool).should.eql(fatePoolString)
+    })
+    it('should format a modifier group', () => {
+      formatGroup(mockModifier).should.eql('3')
     })
   })
   describe('formatSetGroups', () => {

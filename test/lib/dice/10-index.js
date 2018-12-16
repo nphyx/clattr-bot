@@ -191,11 +191,11 @@ describe('the dice module', () => {
     it('should supply default dice size for exploding dice', () => {
       handleGroup('3d!19m3').size.should.eql(6)
     })
+    it(`should complain if it doesn't understand a rule`, () => {
+      (() => handleGroup('1d20z')).should.throw()
+    })
     it('should complain if the string is nonsense', () => {
       (() => handleGroup('zebrahorse')).should.throw()
-    })
-    it('should complain if the operation is nonsense', () => {
-      (() => handleGroup('1d20', 'foo')).should.throw()
     })
   })
   describe('handleSet', () => {
@@ -226,6 +226,13 @@ describe('the dice module', () => {
     it('should handle comments', () => {
       const set = handleSet('1d4 #awesome')
       set.comment.should.eql('awesome')
+    })
+    it('should apply arithmetic operators', () => {
+      const set = handleSet('3d1-2d1*10d1/5 #maaath')
+      set.result.should.eql(2)
+    })
+    it('should complain if the operation is nonsense', () => {
+      (() => handleSet('z1d20')).should.throw(`I don't understand \`z1d20\``)
     })
     it('should complain if the string is nonsense', () => {
       (() => handleSet('zebrahorse')).should.throw()
