@@ -12,26 +12,26 @@ Features
 - **Keeping & Discarding Rolls**: roll multiple dice and keep the lowest or highest
 - **Exploding Dice**: with optional target numbers for explosions
 - **Dice Pools**: Clattr supports game systems that use dice pools with target numbers
-- **Fate Dice**: You can use fate dice too if you're in to that sort of thing: `:r 4f+3` rolls four fate dice, and adds 3 to the result
-- **Cleans Up its Mess**: Clattr will remove your roll message and tag you in a new message when it has a result - clattr, but no cluttr!
-- **Nicely Formatted**: Clattr puts its results (plus tags) at the start of its response where they belong, and displays the details afterward
+- **Fate Dice**: You can use fate dice too
+- **Cleans Up its Mess**: Clattr removes your roll message and tags you with the result - clattr, but no cluttr!
+- **Nicely Formatted**: Clattr puts its results first, roll details later for easy reading 
 - **Better Randomness**: Clattr will give more 'random-feeling' results than some dice rollers, no streaks or runs (it uses the mersenne-twister PRNG algorithm, if you're curious)
 
 Supported Games
 ---------------
 
-- *D&D*: dice rolls, modifiers, rolling with advantage and disadvantage - everything you need for 2nd - 5th edition!
-- *WoD, nWoD, Exalted*: and other Storyteller-based games, with clean easy syntax
-- *Shadowrun*: supports exploding dice
-- *Fate*: has special rules for fate dice
-- *Almost Everything Else*: but if you can't use it with your favorite game, or it's kinda clunky, [let me know](https://github.com/nphyx/clattr-bot/issues)
+- **D&D**: dice rolls, modifiers, rolling with advantage and disadvantage - everything you need for 2nd - 5th edition!
+- **WoD, nWoD, Exalted**: and other Storyteller-based games, with clean easy syntax
+- **Shadowrun**: supports exploding dice
+- **Fate**: has special rules for fate dice
+- **Almost Everything Else**: but if you can't use it with your favorite game, or it's kinda clunky, [let me know](https://github.com/nphyx/clattr-bot/issues)
 
 Using the bot
 -------------
 
 Every roll starts with `:r` followed by a space - that tells the bot to pay attention and read the rest of the line. It will ignore any other messages.
 
-###Basic Rolls
+### Basic Rolls
 When rolling, you can polyhedral dice (`d`), dice pools (`p`), or fate dice (`f`). You can also use plain numbers (for modifiers and other math).
 
 The format for dice `<number of dice><die type><die size><special modifiers>`. so:
@@ -42,13 +42,13 @@ The format for dice `<number of dice><die type><die size><special modifiers>`. s
 - `:r 10` is the number ten
 
 
-###Target Numbers
+### Target Numbers
 
 Dice pools support target numbers:
 
 - `:r 5p10t7` roll a pool of five 10-sided dice, and score a hit for each roll above 7
 
-###Using math operators
+### Using math operators
 
 Adding (`+`), subtracting (`+`), multiplying (`*`) and dividing (`/`) are easy:
 
@@ -64,7 +64,7 @@ You can also use math on dice:
 
 Math operations are simple left-to-right order, so if you do `3+4*2+3` you'll get `3+4=7 -> 7*2=14 -> 14+3=17`
 
-###Special Rules
+### Special Rules
 
 You can use keep-the-highest (`k`), keep-the-lowest (`l`), and explode (`!`) dice.
 
@@ -88,13 +88,13 @@ Rules can be combined:
 
 - `:r 1d20!k1` rolls a 20-sided die, explodes on 20, and keeps the highest (critical hits!)
 
-###Two Rolls, One Line
+### Two Rolls, One Line
 
 You can make separate rolls in a single command and display the results individually.
 
 - `:r 1d20+7, 1d6+1` will display the d20 roll and d6 roll as separate results
 
-###Tagging Rolls
+### Tagging Rolls
 
 You can add a tag to label your rolls using `#`
 
@@ -107,7 +107,7 @@ Naturally you can tag each roll in a multi-roll command:
 More Examples
 -------------
 
-###Basic examples:
+### Basic examples:
 
 | Example          | result |
 |------------------|--------|
@@ -123,7 +123,7 @@ More Examples
 | `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
 | `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
 
-###For D&D 5th Edition:
+### For D&D 5th Edition:
 
 Use `d` type (polyhedral) dice.
 
@@ -139,7 +139,7 @@ Use `d` type (polyhedral) dice.
 | `:r d20!l1 #hit`                            | roll 1d20 with critical hit support (keeping the second result on a 20), for 2nd/3rd Edition & Pathfinder |
 | `:r d20!18l1 #hit`                          | roll 1d20 that crits on 18-20, clever girl |
 
-###For Storyteller:
+### For Storyteller:
 
 Use `p` type (pool) dice. Pool dice default to d10s, so when playing storyteller you don't need to specify the die size.
 
@@ -148,7 +148,7 @@ Use `p` type (pool) dice. Pool dice default to d10s, so when playing storyteller
 | `:r 5p`                                     | roll a pool of 10-sided dice with a target of 8-10  |
 | `:r 5p7`                                    | roll a pool of 10-sided dice with a target of 7-10, if you're special  |
 
-###For Shadowrun
+### For Shadowrun
 
 You'll have to specify p6 for your shadowrun dice, but you can make them explode!
 
@@ -156,7 +156,7 @@ You'll have to specify p6 for your shadowrun dice, but you can make them explode
 |---------------------------------------------|-------------|
 | `:r 3p6! #firearms`                         | roll a pool of three 6-sided exploding dice  |
 
-###For Fate
+### For Fate
 
 Fate dice (type `f`) default to a pool of 4, so you can omit the dice count usually. Clattr will display them as `+`, `-`, and ` ` in the results.
 
