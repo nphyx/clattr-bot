@@ -10,14 +10,14 @@ const { pieceMarkers, rollTypes, combinatorTypes } = require('../../../lib/dice/
 const { mockDie, mockFateDie } = require('./mocks')
 
 const mockGroup1 = {
-  string: '3d6',
-  original: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3)],
-  dice: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3)],
+  string: '3d6!',
+  original: [mockDie(6, 2), mockDie(6, 6, pieceMarkers.EXPLODED), mockDie(6, 3)],
+  dice: [mockDie(6, 2), mockDie(6, 5), mockDie(6, 3), mockDie(6, 6, pieceMarkers.EXPLODED), mockDie(6, 1)],
   type: rollTypes.SUM,
   op: combinatorTypes.ADD,
   result: 10
 }
-const groupString1 = '3d6 [ 2, 5, 3 ]'
+const groupString1 = '3d6! [ 2, **6**:boom:, **6**:boom:, 1, 3 ]'
 const mockGroup2 = {
   string: '1d4',
   original: [mockDie(4, 1)],
@@ -99,7 +99,7 @@ describe('dice::format module', () => {
       formatPieceWithMarker(mockDie(10, 3, pieceMarkers.KEPT)).should.eql('**3**')
     })
     it('should handle exploded dice', () => {
-      formatPieceWithMarker(mockDie(10, 3, pieceMarkers.EXPLODED)).should.eql('3:boom:')
+      formatPieceWithMarker(mockDie(10, 3, pieceMarkers.EXPLODED)).should.eql('**3**:boom:')
     })
     it('should highlight a hit', () => {
       formatPieceWithMarker(mockDie(10, 7, pieceMarkers.HIT)).should.eql('**7**')
@@ -133,7 +133,7 @@ describe('dice::format module', () => {
   })
   describe('formatRoll', () => {
     it('should format a complete roll', () => {
-      formatRoll(mockRoll).should.eql(`**\`1\`**, **sneak attack**: **\`14\`**  :::  ${mockPoolSetString}  :  ${mockSetString}  :::  *${mockRoll.string}*`)
+      formatRoll(mockRoll).should.eql(`rolled **\`1\`**, **sneak attack**: **\`14\`**  :::  ${mockPoolSetString}  :  ${mockSetString}  :::  *${mockRoll.string}*`)
     })
   })
 })
