@@ -6,38 +6,185 @@ An experimental dice bot for discord.
 Features
 --------
 
-- **Multiple Rolls in One Line**: `:r 1d20, 1d4` will roll a 20-sided die and a 10-sided die with separate results
-- **Roll Dice in Groups**: `:r 1d4+3d6` will roll a 4-sided and three 6-sided dice, then add the result
-- **Tag Your Rolls**: `:r 1d20+3 #to hit` will tag the result in its response
-- **Keeping & Discarding Rolls**: `:r 2d20k1+3 #with advantage` will count only the highest of the two dice, likewise `:r 2d20l1+3 #disadvantage` will keep the lowest
-- **Mix and Match**: `:r 2d20+6 #to hit with advantage, 1d4+3d6+3 #damage` will roll to hit and damage, and tag each roll, in one line!
-- **Exploding Dice**: `:r 3d6!` will make sixes explode! `:r 3d10!5` will make anything over 5 explode! `:r 3d10!5m1` will make explosions, but only once per original die!
-- **Dice Pools**: Clattr supports dice pool systems: `:r 5p10t7` will roll five 10-sided dice, and count one hit for each die that rolls 7 or higher
+- **Multiple Rolls**: make multiple rolls on a single line, separated by a comma
+- **Math**: add, subtract, multiply and divide dice results and modifiers
+- **Tag Your Rolls**: label your rolls with tags, so the results will be marked
+- **Keeping & Discarding Rolls**: roll multiple dice and keep the lowest or highest
+- **Exploding Dice**: with optional target numbers for explosions
+- **Dice Pools**: Clattr supports game systems that use dice pools with target numbers
 - **Fate Dice**: You can use fate dice too if you're in to that sort of thing: `:r 4f+3` rolls four fate dice, and adds 3 to the result
 - **Cleans Up its Mess**: Clattr will remove your roll message and tag you in a new message when it has a result - clattr, but no cluttr!
 - **Nicely Formatted**: Clattr puts its results (plus tags) at the start of its response where they belong, and displays the details afterward
 - **Better Randomness**: Clattr will give more 'random-feeling' results than some dice rollers, no streaks or runs (it uses the mersenne-twister PRNG algorithm, if you're curious)
 
+Supported Games
+---------------
+
+- *D&D*: dice rolls, modifiers, rolling with advantage and disadvantage - everything you need for 2nd - 5th edition!
+- *WoD, nWoD, Exalted*: and other Storyteller-based games, with clean easy syntax
+- *Shadowrun*: supports exploding dice
+- *Fate*: has special rules for fate dice
+- *Almost Everything Else*: but if you can't use it with your favorite game, or it's kinda clunky, [let me know](https://github.com/nphyx/clattr-bot/issues)
+
 Using the bot
 -------------
-Every roll starts with `:r ` - that tells the bot to pay attention and read the rest of the line. It will ignore any other messages.
+
+Every roll starts with `:r` followed by a space - that tells the bot to pay attention and read the rest of the line. It will ignore any other messages.
+
+###Basic Rolls
+When rolling, you can polyhedral dice (`d`), dice pools (`p`), or fate dice (`f`). You can also use plain numbers (for modifiers and other math).
+
+The format for dice `<number of dice><die type><die size><special modifiers>`. so:
+
+- `:r 1d20` rolls one 20-sided die
+- `:r 4p10` rolls a pool of four 10-sided dice
+- `:r 4f` rolls four fate dice
+- `:r 10` is the number ten
+
+
+###Target Numbers
+
+Dice pools support target numbers:
+
+- `:r 5p10t7` roll a pool of five 10-sided dice, and score a hit for each roll above 7
+
+###Using math operators
+
+Adding (`+`), subtracting (`+`), multiplying (`*`) and dividing (`/`) are easy:
+
+- `:r 1d20+7` subtracts 2 from the result of the d20 roll
+- `:r 1d20-2` subtracts 2 from the result
+- `:r 1d20*2` multiplies the result by 2
+- `:r 1d20/2` divides the result by 2
+
+You can also use math on dice:
+
+- `:r 1d6+1d4` adds the result of a d6 and a d4
+- `:r 3p10+4p6` adds the hits from two pools of three 10-sided dice and four 6-sided dice
+
+Math operations are simple left-to-right order, so if you do `3+4*2+3` you'll get `3+4=7 -> 7*2=14 -> 14+3=17`
+
+###Special Rules
+
+You can use keep-the-highest (`k`), keep-the-lowest (`l`), and explode (`!`) dice.
+
+- `:r 2d20k1` rolls 2 20-sided dice and keeps the highest
+- `:r 2d20l1` rolls 2 20-sided dice and keeps the lowest
+- `:r 1d20!` rolls a 20-sided die that explodes on 20
+
+You can set a target and maximum for exploding dice:
+
+- `:r 1d20!19` a d20 that explodes on 19-20
+- `:r 1d20!19m1` a d20 that explodes on 19-20, and will only reroll once (max=1)
+
+The maximum number of explosions for a single die is 5. This is to stop clever and crazy people from crashing the bot with infinite `1d1` explosions, sorry :)
+
+For keeping the lowest / highest dice, you can keep more than one:
+
+- `:r 3d20k2` keeps the highest two of three d20s and adds the result together
+- `:r 3p20l2` keeps the lowest two of three d20s and adds the result together
+
+Rules can be combined:
+
+- `:r 1d20!k1` rolls a 20-sided die, explodes on 20, and keeps the highest (critical hits!)
+
+###Two Rolls, One Line
+
+You can make separate rolls in a single command and display the results individually.
+
+- `:r 1d20+7, 1d6+1` will display the d20 roll and d6 roll as separate results
+
+###Tagging Rolls
+
+You can add a tag to label your rolls using `#`
+
+- `:r 1d20+7 #to hit` will tag the result with "to hit", like so: `to hit: 17  :::  (1d20 [10] + 7 = 17)`
+
+Naturally you can tag each roll in a multi-roll command:
+
+- `:r 1d20+7 #to hit, 1d6+1 #damage` : `to hit: 17, damage: 4  :::  (1d20 [10] + 7 = 17), (1d6 [3] + 1 = 4)`
+
+More Examples
+-------------
+
+###Basic examples:
+
+| Example          | result |
+|------------------|--------|
+| `:r d20 #hit`    | roll 1d20, with the tag 'hit' |
+| `:r 2d20k1+3`    | roll 2 d20s, keep the highest, and add 3 |
+| `:r 4d20l2-1`    | roll 2 d20s, keep the lowest 2, and subtract 3 |
+| `:r 3d6!`        | roll 3 exploding d6s |
+| `:r 3d6!5`       | roll 3 exploding d6s that explode on 5 or 6 |
+| `:r 3d6!m1`      | roll 3 exploding d6s, but they only explode once |
+| `:r 3d6!5m1`     | roll 3 exploding d6s that explode once on 5 or 6 |
+| `:r 3d6!5m1k2`   | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
+| `:r 3p6t4`       | roll a pool of 3d6, counting 4 or higher as a hit |
+| `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
+| `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
+
+###For D&D 5th Edition:
+
+Use `d` type (polyhedral) dice.
+
+| Example                                     | description |
+|---------------------------------------------|-------------|
+| `:r d20+7 #persuasion`                      | roll a persuasion check |
+| `:r 8d6 #fireball`                          | roll damage for a fireball |
+| `:r 2d20k1+7 #hit, 1d4+3d6+4 #sneak attack` | roll to hit with advantage + sneak attack damage |
+| `:r d4+1 #1, 1d4+1 #2, 1d4+1 #3`            | roll magic missile with individual targets | 
+| `:r 2d20l1-1 #con save`                     | roll a constitution save with disadvantage | 
+| `:r d20+7+d4 #blessed :)`                   | roll under the effects of bless | 
+| `:r d20+7-d4 #bane :(`                      | roll under the effects of bane | 
+| `:r d20!l1 #hit`                            | roll 1d20 with critical hit support (keeping the second result on a 20), for 2nd/3rd Edition & Pathfinder |
+| `:r d20!18l1 #hit`                          | roll 1d20 that crits on 18-20, clever girl |
+
+###For Storyteller:
+
+Use `p` type (pool) dice. Pool dice default to d10s, so when playing storyteller you don't need to specify the die size.
+
+| Example                                     | description |
+|---------------------------------------------|-------------|
+| `:r 5p`                                     | roll a pool of 10-sided dice with a target of 8-10  |
+| `:r 5p7`                                    | roll a pool of 10-sided dice with a target of 7-10, if you're special  |
+
+###For Shadowrun
+
+You'll have to specify p6 for your shadowrun dice, but you can make them explode!
+
+| Example                                     | description |
+|---------------------------------------------|-------------|
+| `:r 3p6! #firearms`                         | roll a pool of three 6-sided exploding dice  |
+
+###For Fate
+
+Fate dice (type `f`) default to a pool of 4, so you can omit the dice count usually. Clattr will display them as `+`, `-`, and ` ` in the results.
+
+| Example                                     | description |
+|---------------------------------------------|-------------|
+| `:r f+3 #athletics`                         | do an athletics check  |
+| `:r 6f+3 #extra dice`                       | if you need to roll more than 4 fate dice, you can do that  |
+
+Nerdy Details
+-------------
 
 Here's a full breakdown of a single dice roll, with some examples:
 
-|             | count | type  |  size | target | rule        | max   | mod    | tag      | result |
-|-------------|-------|-------|-------|--------|-------------|-------|--------|----------|--------|
-|  accepts    | [int] | d,p,f | [int] | t[int] | !,k,l[int]  | [int] | m[int] | +/-[int] |        |
-| **Examples**|       |       |       |        |             |       |        |          |        |
-| `1d20 #hit` | 1     | d     | 20    |        |             |       |        | hit      | roll 1d20, with the tag 'hit' |
-| `2d20k1+3`  | 2     | d     | 20    |        | k1          |       | +3     |          | roll 2 d20s, keep the highest, and add 3 |
-| `4d20l2-1`  | 2     | d     | 20    |        | k2          |       | -3     |          | roll 2 d20s, keep the lowest 2, and subtract 3 |
-| `3d6!`      | 3     | d     | 6     |        | !           |       |        |          | roll 3 exploding d6s |
-| `3d6!5`     | 3     | d     | 6     |        | !5          |       | m1     |          | roll 3 exploding d6s that explode on 5 or 6 |
-| `3d6!m1`    | 3     | d     | 6     |        | !           |       | m1     |          | roll 3 exploding d6s, but they only explode once |
-| `3d6!5m1`   | 3     | d     | 6     |        | !5          |       | m1     |          | roll 3 exploding d6s that explode on 5 or 6, but they only explode once |
-| `3p6t4`     | 3     | p     | 6     | t4     |             |       |        |          | roll a pool of 3d6, counting 4 or higher as a hit |
-| `3p6t4!`    | 3     | p     | 6     | t4     | !           |       |        |          | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
-| `4f+3`      | 4     | f     | 3     |        |             |       |        | +3       | roll 4 fate dice, add 3 to the result |
+|             | count | type  |  size | target | rule        | mod    | tag      | result |
+|-------------|-------|-------|-------|--------|-------------|--------|----------|--------|
+|  accepts    | [int] | d,p,f | [int] | t[int] | !,k,l[int]  | m[int] | +/-[int] |        |
+| **Examples**|       |       |       |        |             |        |          |        |
+| `1d20 #hit` | 1     | d     | 20    |        |             |        | hit      | roll 1d20, with the tag 'hit' |
+| `2d20k1+3`  | 2     | d     | 20    |        | k1          | +3     |          | roll 2 d20s, keep the highest, and add 3 |
+| `4d20l2-1`  | 2     | d     | 20    |        | k2          | -3     |          | roll 2 d20s, keep the lowest 2, and subtract 3 |
+| `3d6!`      | 3     | d     | 6     |        | !           |        |          | roll 3 exploding d6s |
+| `3d6!5`     | 3     | d     | 6     |        | !5          | m1     |          | roll 3 exploding d6s that explode on 5 or 6 |
+| `3d6!m1`    | 3     | d     | 6     |        | !           | m1     |          | roll 3 exploding d6s, but they only explode once |
+| `3d6!5m1`   | 3     | d     | 6     |        | !5          | m1     |          | roll 3 exploding d6s that explode once on 5 or 6 |
+| `3d6!5m1k2` | 3     | d     | 6     |        | !5m1k2      | m1     |          | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
+| `3p6t4`     | 3     | p     | 6     | t4     |             |        |          | roll a pool of 3d6, counting 4 or higher as a hit |
+| `3p6t4!`    | 3     | p     | 6     | t4     | !           |        |          | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
+| `4f+3`      | 4     | f     | 3     |        |             |        | +3       | roll 4 fate dice, add 3 to the result |
 
 An explanation of the columns:
 
@@ -53,25 +200,6 @@ An explanation of the columns:
 | modifier   | no        | any number       | for individual dice (`d`) and fate dice (`f`) only, a number to be added to the result |
 | tag        | no        | `#`, text        | a tag to add to the roll group, can be almost any character except `,` |
 
-This might get a little overwhelming. Don't think too much about it, and check out the examples. It's easier than it looks when you're staring at giant tables.
-
-Adding Multiple Rolls Together
-------------------------------
-You can add together multiple rolls with `+`. Subtracting one roll from another roll and other math operators will come later. Dice can be placed in any order.
-
-Examples:
-
-- *`:r 3d6+1d4+1`*: # add together the results of three 6-sided dice, one 4-sided die, and add 1
-- *`:r 2d20k1`*: roll two twenty-sided dice, and keep the higher of the two
-
-Rolling Multiple Groups Separately
-----------------------------------
-You can do separate rolls on one line, separated by a comma. Each roll can have a tag, can add together multiple dice types, and can use different rules and dice types
-
-Examples:
-
-- *`:r 1d20+6 #to hit, 1d4+3d6+3 #damage`*: make your hit and damage rolls on the same line
-- *`:r 3p6! #to hit, 1d8+4 #damage`*: freely mix dice types and rules - exploding d6 pools for hit and d8s with modifier for damage? no problem!
 
 Setup
 -----
@@ -87,8 +215,18 @@ to run it on your own computer for now, or know someone who does. Will set up a 
 6) run the bot, in Linux: `export DISCORD_TOKEN=<your bot token> && node index.js`
 7) start playing!
 
+Roadmap
+-------
+
+- *playing card decks*: main code is already written for basic playing card decks, just need to finish formatting rules
+- *other cards*: a lot of the playing cards code is reusable, but need to create lists of face cards, suits, etc.
+- *coin tosses*: same as cards, just needs to be formatted
+- *help command*: display help & examples in game (later)
+- *saving rolls for reuse*: planned, but needs lots of work
+
 License
 -------
+
 GPL 3.0 - see LICENSE.txt
 
 Yes you're welcome to clone this, modify it, contribute changes, etc. If you're a random passer-by. If you choose to contribute, please write unit tests. Also, sorry for the mess, it's a WIP.
