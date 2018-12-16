@@ -41,7 +41,6 @@ const poolString = '6 [ 2, **5**, 3 ]'
 
 const mockFatePool = {
   string: '4f',
-  original: [mockFateDie(3, 1), mockFateDie(3, -1), mockFateDie(3, 0)],
   dice: [mockFateDie(3, 1), mockFateDie(3, -1), mockFateDie(3, 0)],
   type: rollTypes.FATE,
   op: combinatorTypes.ADD,
@@ -83,13 +82,6 @@ const mockRoll = {
   string: '3p6, 1d4+3d6+3',
   sets: [mockPoolSet, mockSet]
 }
-
-/*
-const mockSingleRoll = {
-  string: '3p6',
-  sets: [mockPoolSet]
-}
-*/
 
 describe('dice::format module', () => {
   describe('formatPiece', () => {
@@ -141,7 +133,7 @@ describe('dice::format module', () => {
   })
   describe('formatRoll', () => {
     it('should format a complete roll', () => {
-      formatRoll(mockRoll).should.eql(`**\`1\`**, **sneak attack**: **\`14\`**  :::  ${mockPoolSetString}  :  ${mockSetString}`)
+      formatRoll(mockRoll).should.eql(`**\`1\`**, **sneak attack**: **\`14\`**  :::  ${mockPoolSetString}  :  ${mockSetString}  :::  *${mockRoll.string}*`)
     })
   })
 })

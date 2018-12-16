@@ -219,6 +219,16 @@ describe('the dice module', () => {
       g1.type.should.eql(rollTypes.MOD)
       set.result.should.eql(g0.result + 5)
     })
+    it('should handle modifiers for fate', () => {
+      const set = handleSet('f+4')
+      set.groups.length.should.eql(2)
+      const [g0, g1] = set.groups
+      g0.string.should.eql('f')
+      g0.type.should.eql(rollTypes.FATE)
+      g1.string.should.eql('4')
+      g1.type.should.eql(rollTypes.MOD)
+      set.result.should.eql(g0.result + 4)
+    })
     it('should gracefully handle whitespace', () => {
       const set = handleSet(' 1d4 +3d6')
       const [g0, g1] = set.groups
