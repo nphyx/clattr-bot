@@ -18,7 +18,8 @@
   },
   "scripts": {
     "lint": "eslint index.js lib/**/* test/**/**",
-    "test": "npm run lint && nyc --reporter=text mocha --bail -r should -r sinon -r should-sinon --recursive --reporter=spec test/**/*"
+    "test": "npm run lint && nyc --reporter=text mocha --bail -r should -r sinon -r should-sinon --recursive --reporter=spec test/**/*",
+    "start": "source ./.env && node index.js"
   },
   "repository": {
     "type": "git",
