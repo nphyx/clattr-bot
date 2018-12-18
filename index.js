@@ -6,11 +6,19 @@ client.once('ready', () => {
   console.log('Ready!')
 })
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
   const response = commands.handle(message)
-  if (response) message.delete()
-    .then(() => message.channel.send(response))
-    .catch((e) => console.log(e))
+  if (response) {
+    try {
+      await message.delete()
+    } catch (e) {
+      console.error('could not delete message:', e.message)
+    } try {
+      await message.channel.send(response)
+    } catch (e) {
+      console.log('could not send message:', e)
+    }
+  }
 })
 
 client.login(process.env.DISCORD_TOKEN)
