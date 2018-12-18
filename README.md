@@ -6,15 +6,15 @@ An experimental dice bot for Discord.
 Features
 --------
 
-**Multiple Rolls**: make multiple rolls on a single line, separated by a comma
+**Multiple Rolls**: [make multiple rolls on a single line](#multiple-rolls), separated by a comma
 
-**Math**: add, subtract, multiply and divide dice results and modifiers
+**Math**: [add, subtract, multiply and divide dice results and modifiers](#using-math-operators)
 
-**Tag Your Rolls**: label your rolls with tags, so the results will be marked
+**Tag Your Rolls**: [label your rolls with tags](#tagging-rolls], so the results will be marked
 
-**Keeping & Discarding Rolls**: roll multiple dice and keep the lowest or highest
+**Keeping & Discarding Rolls**: [roll multiple dice and keep the lowest or highest](#special-rules)
 
-**Exploding Dice**: with optional target numbers for explosions
+**Exploding Dice**: with optional target numbers for [explosions](#special-rules)
 
 **Dice Pools**: Clattr supports game systems that use dice pools with target numbers
 
@@ -25,6 +25,28 @@ Features
 **Nicely Formatted**: Clattr puts its results first, roll details later for easy reading 
 
 **Better Randomness**: Clattr will give more 'random-feeling' results than some dice rollers, no streaks or runs (it uses the mersenne-twister PRNG algorithm, if you're curious)
+
+Table of Contents
+-----------------
+
+1) [Supported Games](#supported-games)
+2) [Bot Commands](#bot-commands)
+3) [Examples by Game System](#examples-by-game-system)
+  - [D20](#dd-3rd-5th-edition-d20-system-pathfinder)
+  - [Storyteller](#storyteller)
+  - [Shadowrun](#shadowrun)
+  - [Fate](#fate)
+4) [Syntax](#roll-syntax)
+  - [Target Numbers](#target-numbers)
+  - [Math](#using-math-operators)
+  - [Special Rules](#special-rules)
+  - [Combining Rules](#combining-rules)
+  - [Multiple Rolls](#multiple rolls)
+  - [Tagging Rolls](#tagging-rolls)
+  - [Syntax Breakdown](#syntax-breakdown)
+5) [Setup](#setup)
+5) [Roadmap](#roadmap)
+5) [License & Contributing](#license)
 
 Supported Games
 ---------------
@@ -206,7 +228,7 @@ You can tag each roll in a multi-roll command:
 
 | roll                               | result                                                                            |
 |------------------------------------|-----------------------------------------------------------------------------------|
-| `:r 1d20+7 #to hit, 1d6+1 #damage` : `@you rolled to hit: 17, damage: 4  :::  (1d20 [10] + 7 = 17), (1d6 [3] + 1 = 4)` |
+| `:r 1d20+7 #to hit, 1d6+1 #damage` | `@you rolled to hit: 17, damage: 4  :::  (1d20 [10] + 7 = 17), (1d6 [3] + 1 = 4)` |
 
 ### Full Breakdown
 ------------------
@@ -232,7 +254,7 @@ You can tag each roll in a multi-roll command:
 | `4f`        | 4     | f     | [3]   |        |             |          | roll 4 fate dice |
 | `f`         | [4]   | f     | [3]   |        |             |          | roll fate dice, defaulting to 4 dice |
 
-|            | required  | possible values  | description |
+|            | required  | value            | description |
 |------------|-----------|------------------|-------------|
 | count      | no        | 1-30             | the number of dice to roll. polyhedral and pool dice (`d`, `p`) default to 1 die, fate (`f`) default to 4. |
 | type       | yes       | `d`, `p`, or `f` | roll as individual dice and add their values (`d`), as a pool and count the hits (`p`), or roll fate dice (`f`) |
