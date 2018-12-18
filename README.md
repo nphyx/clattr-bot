@@ -146,7 +146,7 @@ Use `p` type (pool) dice. Pool dice default to d10s, so when playing storyteller
 | Example                                     | description |
 |---------------------------------------------|-------------|
 | `:r 5p`                                     | roll a pool of 10-sided dice with a target of 8-10  |
-| `:r 5p7`                                    | roll a pool of 10-sided dice with a target of 7-10, if you're special  |
+| `:r 5pt7`                                    | roll a pool of 10-sided dice with a target of 7-10, if you're special  |
 
 ### For Shadowrun
 
@@ -168,36 +168,40 @@ Fate dice (type `f`) default to a pool of 4, so you can omit the dice count usua
 Nerdy Details
 -------------
 
-Here's a full breakdown of a single dice roll, with some examples:
+Here's a full breakdown of some example rolls:
 
-|             | count | type  |  size | target | rule        | mod    | tag      | result |
-|-------------|-------|-------|-------|--------|-------------|--------|----------|--------|
-|  accepts    | [int] | d,p,f | [int] | t[int] | !,k,l[int]  | m[int] | +/-[int] |        |
-| **Examples**|       |       |       |        |             |        |          |        |
-| `1d20 #hit` | 1     | d     | 20    |        |             |        | hit      | roll 1d20, with the tag 'hit' |
-| `2d20k1+3`  | 2     | d     | 20    |        | k1          | +3     |          | roll 2 d20s, keep the highest, and add 3 |
-| `4d20l2-1`  | 2     | d     | 20    |        | k2          | -3     |          | roll 2 d20s, keep the lowest 2, and subtract 3 |
-| `3d6!`      | 3     | d     | 6     |        | !           |        |          | roll 3 exploding d6s |
-| `3d6!5`     | 3     | d     | 6     |        | !5          | m1     |          | roll 3 exploding d6s that explode on 5 or 6 |
-| `3d6!m1`    | 3     | d     | 6     |        | !           | m1     |          | roll 3 exploding d6s, but they only explode once |
-| `3d6!5m1`   | 3     | d     | 6     |        | !5          | m1     |          | roll 3 exploding d6s that explode once on 5 or 6 |
-| `3d6!5m1k2` | 3     | d     | 6     |        | !5m1k2      | m1     |          | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
-| `3p6t4`     | 3     | p     | 6     | t4     |             |        |          | roll a pool of 3d6, counting 4 or higher as a hit |
-| `3p6t4!`    | 3     | p     | 6     | t4     | !           |        |          | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
-| `4f+3`      | 4     | f     | 3     |        |             |        | +3       | roll 4 fate dice, add 3 to the result |
+|             | count | type  |  size | target | rule        | tag      | result |
+|-------------|-------|-------|-------|--------|-------------|----------|--------|
+|  accepts    | [int] | d,p,f | [int] | t[int] | !,k,l[int]  | +/-[int] |        |
+| **Examples**|       |       |       |        |             |          |        |
+| `3d6`       | 3     | d     | 6     |        | !           |          | roll 3 d6 and sum the result |
+| `1d20 #hit` | 1     | d     | 20    |        |             | hit      | roll 1d20, with the tag 'hit' |
+| `2d20k1`    | 2     | d     | 20    |        | k1          |          | roll 2 d20s, keep the highest |
+| `4d20l2`    | 2     | d     | 20    |        | l2          |          | roll 2 d20s, keep the lowest 2 |
+| `3d`        | 3     | d     | [6]   |        |             |          | roll 3 dice (defaulting to d6) |
+| `3d6!`      | 3     | d     | 6     |        | !           |          | roll 3 exploding d6s |
+| `3d6!5`     | 3     | d     | 6     |        | !5          |          | roll 3 exploding d6s that explode on 5 or 6 |
+| `3d6!m1`    | 3     | d     | 6     |        | !m1         |          | roll 3 exploding d6s, but they only explode once |
+| `3d6!5m1`   | 3     | d     | 6     |        | !5m1        |          | roll 3 exploding d6s that explode once on 5 or 6 |
+| `3d6!5m1k2` | 3     | d     | 6     |        | !5m1k2      |          | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
+| `3p6t4`     | 3     | p     | 6     | t4     |             |          | roll a pool of 3d6, counting 4 or higher as a hit |
+| `3p6`       | 3     | p     | 6     | [4]    |             |          | roll a pool of 3d6 (defaulting to target of 4-6) |
+| `3p`        | 3     | p     | [10]  | [8]    |             |          | roll a pool of 3 dice (defaulting to d10, target of 8-10) |
+| `3p6t4!`    | 3     | p     | 6     | t4     | !           |          | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
+| `4f`        | 4     | f     | [3]   |        |             |          | roll 4 fate dice |
+| `f`         | [4]   | f     | [3]   |        |             |          | roll fate dice, defaulting to 4 dice |
 
 An explanation of the columns:
 
 |            | required  | possible values  | description |
 |------------|-----------|------------------|-------------|
-| count      | yes       | any whole number | the number of dice to roll |
+| count      | no        | 1-30             | the number of dice to roll. polyhedral and pool dice (`d`, `p`) default to 1 die, fate (`f`) default to 4. |
 | type       | yes       | `d`, `p`, or `f` | roll as individual dice and add their values (`d`), as a pool and count the hits (`p`), or roll fate dice (`f`) |
-| size       | no        | any whole number | the size of the die to roll - defaults to 6 for type d, 10 for type p, and 3 for fate (displayed as '+', ' ', and '-') |
-| target     | sometimes | any whole number | the target number to count as a hit, required for dice pools - otherwise unused |
+| size       | no        | 1-100            | the size of the die to roll - defaults to 6 for type `d`, 10 for type `p`, and 3 for fate (displayed as '+', ' ', and '-') |
+| target     | sometimes | any whole number | the target number to count as a hit, defaulting to roughly the top 1/4th to 1/3rd of the die size |
 | rule       | no        | `!`, `k`, or `l` | special rules for how the dice should be handled - exploding (`!`), keep the highest (`1`), keep the lowest (`1) |
-| rule value | no        | any whole number | for exploding dice, any die equal or higher than this will explode (the highest possible value by default), for keep lower/higher, the number of dice to keep |
+| rule value | no        | any whole number | for exploding dice, any die equal or higher than this will explode, for keep lower/higher, the number of dice to keep |
 | max        | no        | `m`, 1-5         | for exploding dice, the number of times a die can explode (default 5, and can't be set higher than 5) | 
-| modifier   | no        | any number       | for individual dice (`d`) and fate dice (`f`) only, a number to be added to the result |
 | tag        | no        | `#`, text        | a tag to add to the roll group, can be almost any character except `,` |
 
 
@@ -212,8 +216,9 @@ to run it on your own computer for now, or know someone who does. Will set up a 
 3) install packages: `npm install .`
 4) follow standard Discord bot setup procedure [https://discordjs.guide/#/preparations/setting-up-a-bot-application]
 5) get your bot token (use the guide above, and note that Clattr requires the 'manage messages' permission)
-6) run the bot, in Linux: `export DISCORD_TOKEN=<your bot token> && node index.js`
-7) start playing!
+6) copy .env.example to .env and fill out the environment variables
+7) run the bot, in Linux: `npm start`
+8) start playing!
 
 Roadmap
 -------
