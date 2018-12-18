@@ -46,98 +46,13 @@ Every roll starts with `:r` followed by a space - that tells the bot to pay atte
 
 You can also use Clattr via DM if you need to roll privately; just open a DM channel with it. It is not allowed to delete your original command in DM.
 
-### Basic Rolls
-When rolling, you can polyhedral dice (`d`), dice pools (`p`), or fate dice (`f`). You can also use plain numbers (for modifiers and other math).
-
-The format for dice `<number of dice><die type><die size><special modifiers>`. so:
-
-`:r 1d20` rolls one 20-sided die : `@you rolled 12  :::  (1d20 [12] = 12)`
-
-`:r 4p10` rolls a pool of four 10-sided dice, counting 8-10 as a hit : `@you rolled 2  :::  (4p10 [1,10,6,8] = 2)`
-
-`:r 4f` rolls four fate dice : `@you rolled 1  :::  (4f [[+],[+],[ ],[-]] = 1)`
-
-`:r 10` is the number ten : `@you rolled 10  :::  (10)`
-
-
-### Target Numbers
-
-Dice pools support target numbers:
-
-`:r 5p10t7` roll a pool of five 10-sided dice, and score a hit for each roll above 7 : `@you rolled 3  :::  (5p10t7 [10,2,7,4,9] = 3)`
-
-### Using math operators
-
-Adding (`+`), subtracting (`+`), multiplying (`*`) and dividing (`/`) are easy:
-
-`:r 1d20+7` adds 7 to the result of the d20 roll : `@you rolled 22  :::  (1d20 [15] + 7 = 22)`
-
-`:r 1d20-2` subtracts 2 from the result : `@you rolled 3  :::  (1d20 [5] - 2 = 3)`
-
-`:r 1d20*2` multiplies the result by 2 : `@you rolled 22  :::  (1d20 [11] * 2 = 22)`
-
-`:r 1d20/2` divides the result by 2 : `@you rolled 9.5  :::  (1d20 [19] / 2 = 9.5)`
-
-You can also use math on dice rolls:
-
-`:r 1d6+1d4` adds the result of a d6 and a d4 : `@you rolled 4  :::  (1d6 [3] + 1d4 [1] = 4)`
-
-`:r 3p10+4p6` adds the hits from two pools of three 10-sided dice and four 6-sided dice `@you rolled 3  :::  (3p10 [3,5,8] + 4p6 [3,6,6] = 3)`
-
-Math operations are simple left-to-right order, so if you do `3+4*2+3` you'll get `3+4=7 -> 7*2=14 -> 14+3=17`
-
-### Special Rules
-
-You can use keep-the-highest (`k`), keep-the-lowest (`l`), and explode (`!`) dice.
-
-- `:r 2d20k1` rolls 2 20-sided dice and keeps the highest : `@you rolled 16  :::  (2d20k1 [3,16] = 16)`
-- `:r 2d20l1` rolls 2 20-sided dice and keeps the lowest : `@you rolled 5  :::  (2d20l1 [5,19] = 5)`
-- `:r 1d20!` rolls a 20-sided die that explodes on 20 : `@you rolled 23  :::  (1d20! [20,3] = 23)`
-
-You can set a target and maximum for exploding dice:
-
-`:r 1d20!19` a d20 that explodes on 19-20 : `@you rolled 43 ::: (1d20!19 [20,19,4] = 43)`
-
-`:r 1d20!19m1` a d20 that explodes on 19-20, and will only reroll once : `@you rolled 39  :::  (1d20!19m1 [20,19] = 39)`
-
-The maximum number of explosions for a single die is 5. This is to stop clever and crazy people from crashing the bot with infinite `1d1` explosions, sorry :)
-
-For keeping the lowest / highest dice, you can keep more than one:
-
-`:r 3d20k2` keeps the highest two of three d20s and adds the result together : `@you rolled 22  :::  (3p20k2 [5,10,12] = 22)`
-
-`:r 3p20l2` keeps the lowest two of three d20s and adds the result together : `@you rolled 14  :::  (3p20l2 [8,6,12] = 14)`
-
-### Combining Rules
-
-`:r 1d20!k1` rolls a 20-sided die, explodes on 20, and keeps the highest (critical hits!)
-
-### Two Rolls, One Line
-
-You can make separate rolls in a single command and display the results individually.
-
-`:r 1d20+7, 1d6+1` will display the d20 roll and d6 roll as separate results : `@you rolled 12, 4  :::  (1d20 [5] + 7 = 12), (1d6 [3] + 1 = 4)`
-
-### Tagging Rolls
-
-You can add a tag to label your rolls using `#`
-
-`:r 1d20+7 #to hit` will tag the result with "to hit", like so: `@you rolled to hit: 17  :::  (1d20 [10] + 7 = 17)`
-
-You can tag each roll in a multi-roll command:
-
-`:r 1d20+7 #to hit, 1d6+1 #damage` : `@you rolled to hit: 17, damage: 4  :::  (1d20 [10] + 7 = 17), (1d6 [3] + 1 = 4)`
-
-Examples
---------
-
-### Basic examples:
+### Quick Examples:
 
 | Example          | result |
 |------------------|--------|
 | `:r d20 #hit`    | roll 1d20, with the tag 'hit' |
 | `:r 2d20k1+3`    | roll 2 d20s, keep the highest, and add 3 |
-| `:r 4d20l2-1`    | roll 2 d20s, keep the lowest 2, and subtract 3 |
+| `:r 4d20l2-1`    | roll 4 d20s, keep the lowest 2, and subtract 3 |
 | `:r 3d6!`        | roll 3 exploding d6s |
 | `:r 3d6!5`       | roll 3 exploding d6s that explode on 5 or 6 |
 | `:r 3d6!m1`      | roll 3 exploding d6s, but they only explode once |
@@ -146,6 +61,7 @@ Examples
 | `:r 3p6t4`       | roll a pool of 3d6, counting 4 or higher as a hit |
 | `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
 | `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
+
 
 Examples by Game System
 -----------------------
@@ -192,10 +108,108 @@ Fate dice (type `f`) default to a pool of 4, so you can omit the dice count usua
 | `:r f+3 #athletics`                         | do an athletics check  |
 | `:r 6f+3 #extra dice`                       | if you need to roll more than 4 fate dice, you can do that  |
 
-Nerdy Details
--------------
 
-Here's a full breakdown of some example rolls:
+Roll Syntax
+-----------
+
+When rolling, you can polyhedral dice (`d`), dice pools (`p`), or fate dice (`f`). You can also use plain numbers (for modifiers and other math).
+
+The format for dice `<number of dice><die type><die size><special modifiers>`. so:
+
+| roll      | result                                           |
+|-----------|--------------------------------------------------|
+| `:r 1d20` | `@you rolled 12  :::  (1d20 [12] = 12)`          |
+| `:r 4p10` | `@you rolled 2  :::  (4p10 [1,10,6,8] = 2)`      |
+| `:r 4f`   | `@you rolled 1  :::  (4f [[+],[+],[ ],[-]] = 1)` |
+| `:r 10`   | `@you rolled 10  :::  (10)`                      |
+
+
+### Target Numbers
+
+Dice pools support target numbers:
+
+| roll        | result                                           |
+|-------------|--------------------------------------------------|
+| `:r 5p10t7` | `@you rolled 3  :::  (5p10t7 [10,2,7,4,9] = 3)`  |
+
+### Using math operators
+
+Adding (`+`), subtracting (`+`), multiplying (`*`) and dividing (`/`) are easy:
+
+| roll        | result                                           |
+|-------------|--------------------------------------------------|
+| `:r 1d20+7` | `@you rolled 22  :::  (1d20 [15] + 7 = 22)`      |
+| `:r 1d20-2` | `@you rolled 3  :::  (1d20 [5] - 2 = 3)`         |
+| `:r 1d20*2` | `@you rolled 22  :::  (1d20 [11] * 2 = 22)`      |
+| `:r 1d20/2` | `@you rolled 9.5  :::  (1d20 [19] / 2 = 9.5)`    |
+
+You can also use math on dice rolls:
+
+| roll          | result                                                 |
+|---------------|--------------------------------------------------------|
+| `:r 1d6+1d4`  | `@you rolled 4  :::  (1d6 [3] + 1d4 [1] = 4)`          |
+| `:r 3p10+4p6` | `@you rolled 3  :::  (3p10 [3,5,8] + 4p6 [3,6,6] = 3)` |
+
+Math operations are simple left-to-right order, so if you do `3+4*2+3` you'll get `3+4=7 -> 7*2=14 -> 14+3=17`
+
+### Special Rules
+
+You can use keep-the-highest (`k`), keep-the-lowest (`l`), and explode (`!`) dice.
+
+| roll          | result                                      |
+|---------------|---------------------------------------------|
+| `:r 2d20k1`   | `@you rolled 16  :::  (2d20k1 [3,16] = 16)` |
+| `:r 2d20l1`   | `@you rolled 5  :::  (2d20l1 [5,19] = 5)`   |
+| `:r 1d20!`    | `@you rolled 23  :::  (1d20! [20,3] = 23)`  |
+
+You can set a target and maximum for exploding dice:
+
+| roll            | result                                          |
+|-----------------|-------------------------------------------------|
+| `:r 1d20!19`    | `@you rolled 43 ::: (1d20!19 [20,19,4] = 43)`   |
+| `:r 1d20!19m1`  | `@you rolled 39  :::  (1d20!19m1 [20,19] = 39)` |
+
+The maximum number of explosions for a single die is 5. This is to stop clever and crazy people from crashing the bot with infinite `1d1` explosions, sorry :)
+
+For keeping the lowest / highest dice, you can keep more than one:
+
+| roll         | result                                          |
+|--------------|-------------------------------------------------|
+| `:r 3d20k2`  | `@you rolled 22  :::  (3p20k2 [5,10,12] = 22)`  |
+| `:r 3p20l2`  | `@you rolled 14  :::  (3p20l2 [8,6,12] = 14)`   |
+
+### Combining Rules
+
+Special rules can be combined, and are executed in order.
+
+| roll         | result                                          |
+|--------------|-------------------------------------------------|
+| `:r 1d20!l1` | `@you rolled 8  :::  (1d20!l1 [20,8] = 8)`      |
+
+### Two Rolls, One Line
+
+You can make separate rolls in a single command and display the results individually.
+
+| roll               | result                                                           |
+|--------------------|------------------------------------------------------------------|
+| `:r 1d20+7, 1d6+1` | `@you rolled 12, 4  :::  (1d20 [5] + 7 = 12), (1d6 [3] + 1 = 4)` |
+
+### Tagging Rolls
+
+Add a tag to label your rolls using `#`
+
+| roll                | result                                              |
+|---------------------|-----------------------------------------------------|
+| `:r 1d20+7 #to hit` | `@you rolled to hit: 17  :::  (1d20 [10] + 7 = 17)` |
+
+You can tag each roll in a multi-roll command:
+
+| roll                               | result                                                                            |
+|------------------------------------|-----------------------------------------------------------------------------------|
+| `:r 1d20+7 #to hit, 1d6+1 #damage` : `@you rolled to hit: 17, damage: 4  :::  (1d20 [10] + 7 = 17), (1d6 [3] + 1 = 4)` |
+
+### Full Breakdown
+------------------
 
 |             | count | type  |  size | target | rule        | tag      | result |
 |-------------|-------|-------|-------|--------|-------------|----------|--------|
@@ -218,8 +232,6 @@ Here's a full breakdown of some example rolls:
 | `4f`        | 4     | f     | [3]   |        |             |          | roll 4 fate dice |
 | `f`         | [4]   | f     | [3]   |        |             |          | roll fate dice, defaulting to 4 dice |
 
-An explanation of the columns:
-
 |            | required  | possible values  | description |
 |------------|-----------|------------------|-------------|
 | count      | no        | 1-30             | the number of dice to roll. polyhedral and pool dice (`d`, `p`) default to 1 die, fate (`f`) default to 4. |
@@ -230,7 +242,6 @@ An explanation of the columns:
 | rule value | no        | any whole number | for exploding dice, any die equal or higher than this will explode, for keep lower/higher, the number of dice to keep |
 | max        | no        | `m`, 1-5         | for exploding dice, the number of times a die can explode (default 5, and can't be set higher than 5) | 
 | tag        | no        | `#`, text        | a tag to add to the roll group, can be almost any character except `,` |
-
 
 Setup
 -----
