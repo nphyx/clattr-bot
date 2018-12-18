@@ -260,7 +260,7 @@ You can tag each roll in a multi-roll command:
 | type       | yes       | `d`, `p`, or `f` | roll as individual dice and add their values (`d`), as a pool and count the hits (`p`), or roll fate dice (`f`) |
 | size       | no        | 1-100            | the size of the die to roll - defaults to 6 for type `d`, 10 for type `p`, and 3 for fate (displayed as '+', ' ', and '-') |
 | target     | sometimes | any whole number | the target number to count as a hit, defaulting to roughly the top 1/4th to 1/3rd of the die size |
-| rule       | no        | `!`, `k`, or `l` | special rules for how the dice should be handled - exploding (`!`), keep the highest (`1`), keep the lowest (`1) |
+| rule       | no        | `!`, `k`, or `l` | special rules for how the dice should be handled - exploding (`!`), keep the highest (`k`), keep the lowest (`l`) |
 | rule value | no        | any whole number | for exploding dice, any die equal or higher than this will explode, for keep lower/higher, the number of dice to keep |
 | max        | no        | `m`, 1-5         | for exploding dice, the number of times a die can explode (default 5, and can't be set higher than 5) | 
 | tag        | no        | `#`, text        | a tag to add to the roll group, can be almost any character except `,` |
