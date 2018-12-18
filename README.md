@@ -1,66 +1,88 @@
 Clattr Bot
 ==========
 
-An experimental dice bot for discord.
+An experimental dice bot for Discord.
 
 Features
 --------
 
-- **Multiple Rolls**: make multiple rolls on a single line, separated by a comma
-- **Math**: add, subtract, multiply and divide dice results and modifiers
-- **Tag Your Rolls**: label your rolls with tags, so the results will be marked
-- **Keeping & Discarding Rolls**: roll multiple dice and keep the lowest or highest
-- **Exploding Dice**: with optional target numbers for explosions
-- **Dice Pools**: Clattr supports game systems that use dice pools with target numbers
-- **Fate Dice**: You can use fate dice too
-- **Cleans Up its Mess**: Clattr removes your roll message and tags you with the result - clattr, but no cluttr!
-- **Nicely Formatted**: Clattr puts its results first, roll details later for easy reading 
-- **Better Randomness**: Clattr will give more 'random-feeling' results than some dice rollers, no streaks or runs (it uses the mersenne-twister PRNG algorithm, if you're curious)
+**Multiple Rolls**: make multiple rolls on a single line, separated by a comma
+
+**Math**: add, subtract, multiply and divide dice results and modifiers
+
+**Tag Your Rolls**: label your rolls with tags, so the results will be marked
+
+**Keeping & Discarding Rolls**: roll multiple dice and keep the lowest or highest
+
+**Exploding Dice**: with optional target numbers for explosions
+
+**Dice Pools**: Clattr supports game systems that use dice pools with target numbers
+
+**Fate Dice**: You can use fate dice too
+
+**Cleans Up its Mess**: Clattr removes your roll message and tags you with the result - clattr, but no cluttr!
+
+**Nicely Formatted**: Clattr puts its results first, roll details later for easy reading 
+
+**Better Randomness**: Clattr will give more 'random-feeling' results than some dice rollers, no streaks or runs (it uses the mersenne-twister PRNG algorithm, if you're curious)
 
 Supported Games
 ---------------
 
-- **D&D**: dice rolls, modifiers, rolling with advantage and disadvantage - everything you need for 2nd - 5th edition!
-- **WoD, nWoD, Exalted**: and other Storyteller-based games, with clean easy syntax
-- **Shadowrun**: supports exploding dice
-- **Fate**: has special rules for fate dice
-- **Almost Everything Else**: but if you can't use it with your favorite game, or it's kinda clunky, [let me know](https://github.com/nphyx/clattr-bot/issues)
+**D20/D&D**: dice rolls, modifiers, rolling with advantage and disadvantage - everything you need for 2nd - 5th edition, Pathfinder, and other D20 games
 
-Using the bot
--------------
+**WoD, nWoD, Exalted**: and other Storyteller-based games, with clean easy syntax
 
-Every roll starts with `:r` followed by a space - that tells the bot to pay attention and read the rest of the line. It will ignore any other messages.
+**Shadowrun**: supports exploding dice
+
+**Fate**: has special rules for fate dice
+
+**Almost Everything Else**: but if you can't use it with your favorite game, or it's kinda clunky, [let me know](https://github.com/nphyx/clattr-bot/issues)
+
+Bot Commands
+------------
+
+Every roll starts with `:r` followed by a space - that tells the bot to pay attention and read the rest of the line. It will ignore any other messages. You can use the `:r` command in any channel where Clattr is active. When it finishes calculating your roll it will @you with the result and delete your original message, keeping things tidy.
+
+You can also use Clattr via DM if you need to roll privately; just open a DM channel with it. It is not allowed to delete your original command in DM.
 
 ### Basic Rolls
 When rolling, you can polyhedral dice (`d`), dice pools (`p`), or fate dice (`f`). You can also use plain numbers (for modifiers and other math).
 
 The format for dice `<number of dice><die type><die size><special modifiers>`. so:
 
-- `:r 1d20` rolls one 20-sided die
-- `:r 4p10` rolls a pool of four 10-sided dice
-- `:r 4f` rolls four fate dice
-- `:r 10` is the number ten
+`:r 1d20` rolls one 20-sided die : `@you rolled 12  :::  (1d20 [12] = 12)`
+
+`:r 4p10` rolls a pool of four 10-sided dice, counting 8-10 as a hit : `@you rolled 2  :::  (4p10 [1,10,6,8] = 2)`
+
+`:r 4f` rolls four fate dice : `@you rolled 1  :::  (4f [[+],[+],[ ],[-]] = 1)`
+
+`:r 10` is the number ten : `@you rolled 10  :::  (10)`
 
 
 ### Target Numbers
 
 Dice pools support target numbers:
 
-- `:r 5p10t7` roll a pool of five 10-sided dice, and score a hit for each roll above 7
+`:r 5p10t7` roll a pool of five 10-sided dice, and score a hit for each roll above 7 : `@you rolled 3  :::  (5p10t7 [10,2,7,4,9] = 3)`
 
 ### Using math operators
 
 Adding (`+`), subtracting (`+`), multiplying (`*`) and dividing (`/`) are easy:
 
-- `:r 1d20+7` subtracts 2 from the result of the d20 roll
-- `:r 1d20-2` subtracts 2 from the result
-- `:r 1d20*2` multiplies the result by 2
-- `:r 1d20/2` divides the result by 2
+`:r 1d20+7` adds 7 to the result of the d20 roll : `@you rolled 22  :::  (1d20 [15] + 7 = 22)`
 
-You can also use math on dice:
+`:r 1d20-2` subtracts 2 from the result : `@you rolled 3  :::  (1d20 [5] - 2 = 3)`
 
-- `:r 1d6+1d4` adds the result of a d6 and a d4
-- `:r 3p10+4p6` adds the hits from two pools of three 10-sided dice and four 6-sided dice
+`:r 1d20*2` multiplies the result by 2 : `@you rolled 22  :::  (1d20 [11] * 2 = 22)`
+
+`:r 1d20/2` divides the result by 2 : `@you rolled 9.5  :::  (1d20 [19] / 2 = 9.5)`
+
+You can also use math on dice rolls:
+
+`:r 1d6+1d4` adds the result of a d6 and a d4 : `@you rolled 4  :::  (1d6 [3] + 1d4 [1] = 4)`
+
+`:r 3p10+4p6` adds the hits from two pools of three 10-sided dice and four 6-sided dice `@you rolled 3  :::  (3p10 [3,5,8] + 4p6 [3,6,6] = 3)`
 
 Math operations are simple left-to-right order, so if you do `3+4*2+3` you'll get `3+4=7 -> 7*2=14 -> 14+3=17`
 
@@ -68,44 +90,46 @@ Math operations are simple left-to-right order, so if you do `3+4*2+3` you'll ge
 
 You can use keep-the-highest (`k`), keep-the-lowest (`l`), and explode (`!`) dice.
 
-- `:r 2d20k1` rolls 2 20-sided dice and keeps the highest
-- `:r 2d20l1` rolls 2 20-sided dice and keeps the lowest
-- `:r 1d20!` rolls a 20-sided die that explodes on 20
+- `:r 2d20k1` rolls 2 20-sided dice and keeps the highest : `@you rolled 16  :::  (2d20k1 [3,16] = 16)`
+- `:r 2d20l1` rolls 2 20-sided dice and keeps the lowest : `@you rolled 5  :::  (2d20l1 [5,19] = 5)`
+- `:r 1d20!` rolls a 20-sided die that explodes on 20 : `@you rolled 23  :::  (1d20! [20,3] = 23)`
 
 You can set a target and maximum for exploding dice:
 
-- `:r 1d20!19` a d20 that explodes on 19-20
-- `:r 1d20!19m1` a d20 that explodes on 19-20, and will only reroll once (max=1)
+`:r 1d20!19` a d20 that explodes on 19-20 : `@you rolled 43 ::: (1d20!19 [20,19,4] = 43)`
+
+`:r 1d20!19m1` a d20 that explodes on 19-20, and will only reroll once : `@you rolled 39  :::  (1d20!19m1 [20,19] = 39)`
 
 The maximum number of explosions for a single die is 5. This is to stop clever and crazy people from crashing the bot with infinite `1d1` explosions, sorry :)
 
 For keeping the lowest / highest dice, you can keep more than one:
 
-- `:r 3d20k2` keeps the highest two of three d20s and adds the result together
-- `:r 3p20l2` keeps the lowest two of three d20s and adds the result together
+`:r 3d20k2` keeps the highest two of three d20s and adds the result together : `@you rolled 22  :::  (3p20k2 [5,10,12] = 22)`
 
-Rules can be combined:
+`:r 3p20l2` keeps the lowest two of three d20s and adds the result together : `@you rolled 14  :::  (3p20l2 [8,6,12] = 14)`
 
-- `:r 1d20!k1` rolls a 20-sided die, explodes on 20, and keeps the highest (critical hits!)
+### Combining Rules
+
+`:r 1d20!k1` rolls a 20-sided die, explodes on 20, and keeps the highest (critical hits!)
 
 ### Two Rolls, One Line
 
 You can make separate rolls in a single command and display the results individually.
 
-- `:r 1d20+7, 1d6+1` will display the d20 roll and d6 roll as separate results
+`:r 1d20+7, 1d6+1` will display the d20 roll and d6 roll as separate results : `@you rolled 12, 4  :::  (1d20 [5] + 7 = 12), (1d6 [3] + 1 = 4)`
 
 ### Tagging Rolls
 
 You can add a tag to label your rolls using `#`
 
-- `:r 1d20+7 #to hit` will tag the result with "to hit", like so: `to hit: 17  :::  (1d20 [10] + 7 = 17)`
+`:r 1d20+7 #to hit` will tag the result with "to hit", like so: `@you rolled to hit: 17  :::  (1d20 [10] + 7 = 17)`
 
-Naturally you can tag each roll in a multi-roll command:
+You can tag each roll in a multi-roll command:
 
-- `:r 1d20+7 #to hit, 1d6+1 #damage` : `to hit: 17, damage: 4  :::  (1d20 [10] + 7 = 17), (1d6 [3] + 1 = 4)`
+`:r 1d20+7 #to hit, 1d6+1 #damage` : `@you rolled to hit: 17, damage: 4  :::  (1d20 [10] + 7 = 17), (1d6 [3] + 1 = 4)`
 
-More Examples
--------------
+Examples
+--------
 
 ### Basic examples:
 
@@ -123,7 +147,10 @@ More Examples
 | `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
 | `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
 
-### For D&D 5th Edition:
+Examples by Game System
+-----------------------
+
+### D&D (3rd-5th edition), D20 System, Pathfinder
 
 Use `d` type (polyhedral) dice.
 
@@ -139,7 +166,7 @@ Use `d` type (polyhedral) dice.
 | `:r d20!l1 #hit`                            | roll 1d20 with critical hit support (keeping the second result on a 20), for 2nd/3rd Edition & Pathfinder |
 | `:r d20!18l1 #hit`                          | roll 1d20 that crits on 18-20, clever girl |
 
-### For Storyteller:
+### Storyteller
 
 Use `p` type (pool) dice. Pool dice default to d10s, so when playing storyteller you don't need to specify the die size.
 
@@ -148,7 +175,7 @@ Use `p` type (pool) dice. Pool dice default to d10s, so when playing storyteller
 | `:r 5p`                                     | roll a pool of 10-sided dice with a target of 8-10  |
 | `:r 5pt7`                                    | roll a pool of 10-sided dice with a target of 7-10, if you're special  |
 
-### For Shadowrun
+### Shadowrun
 
 You'll have to specify p6 for your shadowrun dice, but you can make them explode!
 
@@ -156,7 +183,7 @@ You'll have to specify p6 for your shadowrun dice, but you can make them explode
 |---------------------------------------------|-------------|
 | `:r 3p6! #firearms`                         | roll a pool of three 6-sided exploding dice  |
 
-### For Fate
+### Fate
 
 Fate dice (type `f`) default to a pool of 4, so you can omit the dice count usually. Clattr will display them as `+`, `-`, and ` ` in the results.
 
