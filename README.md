@@ -41,7 +41,7 @@ Table of Contents
   - [Math](#using-math-operators)
   - [Special Rules](#special-rules)
   - [Combining Rules](#combining-rules)
-  - [Multiple Rolls](#multiple rolls)
+  - [Multiple Rolls](#multiple-rolls)
   - [Tagging Rolls](#tagging-rolls)
   - [Syntax Breakdown](#syntax-breakdown)
 5) [Setup](#setup)
@@ -208,7 +208,7 @@ Special rules can be combined, and are executed in order.
 |--------------|-------------------------------------------------|
 | `:r 1d20!l1` | `@you rolled 8  :::  (1d20!l1 [20,8] = 8)`      |
 
-### Two Rolls, One Line
+### Multiple Rolls
 
 You can make separate rolls in a single command and display the results individually.
 
