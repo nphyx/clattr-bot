@@ -10,7 +10,7 @@ Features
 
 **Math**: [add, subtract, multiply and divide dice results and modifiers](#using-math-operators)
 
-**Tag Your Rolls**: [label your rolls with tags](#tagging-rolls], so the results will be marked
+**Tag Your Rolls**: [label your rolls with tags](#tagging-rolls), so the results will be marked
 
 **Keeping & Discarding Rolls**: [roll multiple dice and keep the lowest or highest](#special-rules)
 
