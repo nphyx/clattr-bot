@@ -1,8 +1,11 @@
 const {
+  FormattingError,
   formatPiece,
   formatPieceWithMarker,
   formatGroup,
+  formatGroups,
   formatSetGroups,
+  formatSetResult,
   formatRoll
 } = require('../../../lib/dice/format')
 const { strings } = require('../../../lib/dice/maps')
@@ -84,6 +87,13 @@ const mockRoll = {
 }
 
 describe('dice::format module', () => {
+  describe('FormattingError', () => {
+    it('should set name & message correctly', () => {
+      const fe = new FormattingError('foo')
+      fe.name.should.eql('FormattingError')
+      fe.message.should.eql('foo')
+    })
+  })
   describe('formatPiece', () => {
     it('should handle normal dice', () => {
       formatPiece(mockDie(10, 3)).should.eql('3')
@@ -123,6 +133,17 @@ describe('dice::format module', () => {
       formatGroup(mockModifier).should.eql('3')
     })
   })
+  describe('formatGroups', () => {
+    it('should combine group strings', () => {
+      formatGroups([mockGroup1, mockGroup2]).should.eql(
+        `${groupString1} ${strings.combinators.get(mockGroup2.op)} ${groupString2}`
+      )
+    })
+    it('should return a blank string for empty group sets', () => {
+      formatGroups([]).should.eql('')
+      formatGroups().should.eql('')
+    })
+  })
   describe('formatSetGroups', () => {
     it('should format a dice set', () => {
       formatSetGroups(mockSet).should.eql(mockSetString)
@@ -130,10 +151,21 @@ describe('dice::format module', () => {
     it('should format a fate set', () => {
       formatSetGroups(mockFateSet).should.eql(mockFateSetString)
     })
+    it('should return undefined if there are no groups in the set', () => {
+      (formatSetGroups({ groups: [] }) === undefined).should.eql(true)
+    })
+  })
+  describe('formatSetResult', () => {
+    it('should return an empty string if there are no groups in the set', () => {
+      (formatSetResult({ groups: [] }) === '').should.eql(true)
+    })
   })
   describe('formatRoll', () => {
     it('should format a complete roll', () => {
       formatRoll(mockRoll).should.eql(`rolled **\`1\`**, **sneak attack**: **\`14\`**  :::  ${mockPoolSetString}  :  ${mockSetString}  :::  *${mockRoll.string}*`)
+    })
+    it('should handle errors', () => {
+      (() => formatRoll(null)).should.throw('I messed up formatting the result...')
     })
   })
 })

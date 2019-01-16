@@ -51,5 +51,11 @@ describe('the dice::util module', () => {
       ]
       totalGroups(groups).should.eql(20)
     })
+    it('should skip unrecognized operators', () => {
+      const groups = [
+        { op: Symbol(), result: 9 }
+      ]
+      totalGroups(groups).should.eql(0)
+    })
   })
 })

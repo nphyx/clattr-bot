@@ -111,13 +111,21 @@ describe('the dice::rules module', () => {
     it('should complain when there are too many rules', () => {
       const dice = [mockDie(1, 1), mockDie(1, 1)]
       const ruleSet = [
-        [ruleTypes.KEEP_HIGH, 1], [ruleTypes.EXPLODE, 1],
+        [ruleTypes.KEEP_HIGH, 1],
+        [ruleTypes.EXPLODE, 1],
         [ruleTypes.EXPLODE_LIMIT, 2],
         [ruleTypes.KEEP_LOW, 2],
         [ruleTypes.EXPLODE, 1],
         [ruleTypes.EXPLODE_LIMIT, 2]
       ]
       ;(() => apply(dice, ruleSet)).should.throw()
+    })
+    it('should skip a rule if it is unrecognized', () => {
+      const ruleSet = [
+        [10000, 1]
+      ]
+      const dice = [mockDie(1, 1)]
+      apply(dice, ruleSet).should.eql(dice)
     })
   })
 })

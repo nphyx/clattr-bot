@@ -199,6 +199,15 @@ describe('the dice module', () => {
     it('should complain if the string is nonsense', () => {
       (() => handleGroup('zebrahorse')).should.throw()
     })
+    it('should complain if you try to roll too many dice', () => {
+      (() => handleGroup('31d10')).should.throw()
+    })
+    it('should complain if you try to roll a huge die', () => {
+      (() => handleGroup('1d1000')).should.throw()
+    })
+    it('should complain if input is garbage', () => {
+      (() => handleGroup(null)).should.throw()
+    })
   })
   describe('handleSet', () => {
     it('should split two groups of dice and roll each', () => {
@@ -243,6 +252,9 @@ describe('the dice module', () => {
       const set = handleSet('3d1-2d1*10d1/5 #maaath')
       set.result.should.eql(2)
     })
+    it('should complain if it does not recognize a combinator', () => {
+      (() => handleSet('&')).should.throw()
+    })
     it('should complain if the operation is nonsense', () => {
       (() => handleSet('z1d20')).should.throw(`I don't understand \`z1d20\``)
     })
@@ -251,7 +263,7 @@ describe('the dice module', () => {
     })
   })
   describe('handleRoll', () => {
-    it('should handle a set of rollTypes', () => {
+    it('should handle several sets', () => {
       const roll = handleRoll('1d20+3, 1d4+3d6+3')
       roll.string.should.eql('1d20+3, 1d4+3d6+3')
       roll.sets.length.should.eql(2)
@@ -269,8 +281,22 @@ describe('the dice module', () => {
       s1g3.string.should.eql('3')
       s1g3.type.should.eql(rollTypes.MOD)
     })
+    it('should handle sets without dice', () => {
+      const roll = handleRoll('1d20, 2d20, #foo')
+      roll.sets.length.should.eql(3)
+    })
+    it('should deal with empty sets sanely', () => {
+      const roll = handleRoll('1d20,,1d10')
+      roll.sets.length.should.eql(2)
+    })
     it('should complain if the string is nonsense', () => {
       (() => handleRoll('zebrahorse')).should.throw()
+    })
+    it('should complain if input is garbage', () => {
+      (() => handleRoll(null)).should.throw()
+    })
+    it('should complain on too many groups', () => {
+      (() => handleRoll('1d1, 1d1, 1d1, 1d1, 1d1, 1d1, 1d1, 1d1, 1d1, 1d1, 1d1')).should.throw()
     })
   })
   describe('handler', () => {
@@ -278,8 +304,11 @@ describe('the dice module', () => {
       const result = handler('1d20 + 7, 1d4+3d6+1')
       result.length.should.be.greaterThan(0)
     })
-    it('should errors and return their message', () => {
+    it('should handle errors and return their message', () => {
       handler('zebrahorse').should.eql(`I don't understand \`zebrahorse\``)
+    })
+    it('should reject any formatted string that ends up being too large', () => {
+      handler('30d1! #super duper ooper explosionomatic blast').should.match(/^you did a bad thing.*/)
     })
   })
 })
