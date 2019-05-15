@@ -1,4 +1,4 @@
-const { pieceTypes } = require('../../../lib/dice/constants')
+const { pieceTypes } = require('../../lib/common/constants')
 
 const mockDie = (size, result, marker) => ({ size, result, type: pieceTypes.POLY, marker })
 const mockFateDie = (size, result) => ({ size, result, type: pieceTypes.FATE })

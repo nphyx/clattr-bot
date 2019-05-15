@@ -1,5 +1,5 @@
-const { polyhedral, fate, coin, playingCards } = require('../../../lib/dice/pieces')
-const { checkPolyhedral, checkFate, checkCoin, checkPlayingCard, checkPlayingCards } = require('./helpers')
+const { polyhedral, fate, coin, playingCards } = require('../../../lib/common/pieces')
+const { checkPolyhedral, checkFate, checkCoin, checkPlayingCard, checkPlayingCards } = require('../helpers')
 
 describe('the dice::pieces module', () => {
   describe('polyhedral', () => {

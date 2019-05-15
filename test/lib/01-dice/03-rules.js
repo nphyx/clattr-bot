@@ -1,6 +1,6 @@
 const { explode, keep, apply } = require('../../../lib/dice/rules')
-const { pieceMarkers, ruleTypes } = require('../../../lib/dice/constants')
-const { mockDie } = require('./mocks')
+const { pieceMarkers, ruleTypes } = require('../../../lib/common/constants')
+const { mockDie } = require('../mocks')
 
 describe('the dice::rules module', () => {
   describe('keep', () => {

@@ -9,8 +9,8 @@ const {
   formatRoll
 } = require('../../../lib/dice/format')
 const { strings } = require('../../../lib/dice/maps')
-const { pieceMarkers, rollTypes, combinatorTypes } = require('../../../lib/dice/constants')
-const { mockDie, mockFateDie } = require('./mocks')
+const { pieceMarkers, rollTypes, combinatorTypes } = require('../../../lib/common/constants')
+const { mockDie, mockFateDie } = require('../mocks')
 
 const mockGroup1 = {
   string: '3d6!',

@@ -1,4 +1,4 @@
-const { pieceTypes, playingCardFaces, playingCardSuits } = require('../../../lib/dice/constants')
+const { pieceTypes, playingCardFaces, playingCardSuits } = require('../../lib/common/constants')
 
 const { JACK, KING, QUEEN, ACE, JOKER } = playingCardFaces
 const { HEARTS, DIAMONDS, SPADES, CLUBS } = playingCardSuits

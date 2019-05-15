@@ -1,6 +1,6 @@
 const { sum, sumResults, totalGroups } = require('../../../lib/dice/util')
-const { combinatorTypes } = require('../../../lib/dice/constants')
-const { mockDie } = require('./mocks')
+const { combinatorTypes } = require('../../../lib/common/constants')
+const { mockDie } = require('../mocks')
 
 describe('the dice::util module', () => {
   describe('sum', () => {

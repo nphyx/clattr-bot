@@ -1,4 +1,4 @@
-const { pieceTypes, rollTypes } = require('../../../lib/dice/constants')
+const { pieceTypes, rollTypes } = require('../../../lib/common/constants')
 const { parseDiceGroup, handleGroup, handleSet, handleRoll, handler } = require('../../../lib/dice')
 
 describe('the dice module', () => {
