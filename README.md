@@ -28,6 +28,8 @@ Features
 
 **Better Randomness**: Clattr will give more 'random-feeling' results than some dice rollers, no streaks or runs (it uses the mersenne-twister PRNG algorithm, if you're curious)
 
+**Playing Cards**: fully simulated playing card decks, for use in Savage Worlds initiative, your Deck of Many Things, or any other card-based game mechanic
+
 Table of Contents
 -----------------
 
@@ -46,9 +48,9 @@ Table of Contents
   - [Multiple Rolls](#multiple-rolls)
   - [Tagging Rolls](#tagging-rolls)
   - [Syntax Breakdown](#syntax-breakdown)
-5) [Setup](#setup)
-5) [Roadmap](#roadmap)
-5) [License & Contributing](#license)
+6) [Setup](#setup)
+7) [Roadmap](#roadmap)
+8) [License & Contributing](#license)
 
 Supported Games
 ---------------
@@ -61,16 +63,22 @@ Supported Games
 
 **Fate**: has special rules for fate dice
 
-**Savage Worlds**: has special rules for savage worlds wild dice
+**Savage Worlds**: wild dice and playing card support, plus all the other dice features
 
 **Almost Everything Else**: but if you can't use it with your favorite game, or it's kinda clunky, [let me know](https://github.com/nphyx/clattr-bot/issues)
 
 Bot Commands
 ------------
 
-Every roll starts with `:r` followed by a space - that tells the bot to pay attention and read the rest of the line. It will ignore any other messages. You can use the `:r` command in any channel where Clattr is active. When it finishes calculating your roll it will @you with the result and delete your original message, keeping things tidy.
+Every die roll starts with `:r` followed by a space - that tells the bot to pay attention and read the rest of the line. It will ignore any other messages. You can use the `:r` command in any channel where Clattr is active. When it finishes calculating your roll it will @you with the result and delete your original message, keeping things tidy.
 
 You can also use Clattr via DM if you need to roll privately; just open a DM channel with it. It is not allowed to delete your original command in DM.
+
+Card commands start with `:c` followed by a space, the command, and optionally a deck name if you need to have multiple decks in play. Clattr doesn't just generate a random playing card - it uses a fully simulated deck, with a stock, discard pile, and a strongly randomized shuffling algorithm (Fisher-Yates). Decks start out shuffled, can be re-shuffled manually, and automatically reshuffle when the stock is depleted. Decks include 2 jokers - if your game doesn't need jokers, just ignore them for now.
+
+Each guild (discord server) shares its decks, so if you have multiple games running in the same guild it would be wise to label your decks by game. Direct messages with the Clattr-bot have their own private decks.
+
+Note the card system is still under development, and does not yet support hands, op/dealer privileges, or anything like that. It's good for simple tasks but won't work for most playing card games.
 
 ### Quick Examples:
 
@@ -88,6 +96,12 @@ You can also use Clattr via DM if you need to roll privately; just open a DM cha
 | `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
 | `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
 | `:r w8+2`        | roll a d8 with a d4 wild die, add 2 to the greater of the two |
+| `:c 2`           | draw 2 cards from the guild deck |
+| `:c 2 foo`       | draw 2 cards from the deck named 'foo' |
+| `:c shuffle`     | shuffle the guild deck |
+| `:c shuffle foo` | shuffle the guild deck |
+| `:c list`        | list all decks in play |
+| `:c remove foo`  | remove the deck named 'foo' from play |
 
 
 Examples by Game System
@@ -279,7 +293,7 @@ You can tag each roll in a multi-roll command:
 | `4f`        | 4     | f       | [3]   |        |                    |          | roll 4 fate dice |
 | `f`         | [4]   | f       | [3]   |        |                    |          | roll fate dice, defaulting to 4 dice |
 | `w8`        | [1]   | w       | 8     |        |                    |          | roll a d8 and a d4 wild die, both exploding |
-| `w8w6`      | [1]   | w       | 8     |        | w8                 |          | roll a d8 and a d6 wild die, both exploding |
+| `w8w6`      | [1]   | w       | 8     |        | w6                 |          | roll a d8 and a d6 wild die, both exploding |
 
 |            | required  | value                | description |
 |------------|-----------|----------------------|-------------|
@@ -310,11 +324,11 @@ to run it on your own computer for now, or know someone who does. Will set up a 
 Roadmap
 -------
 
-- *playing card decks*: main code is already written for basic playing card decks, just need to finish formatting rules
-- *other cards*: a lot of the playing cards code is reusable, but need to create lists of face cards, suits, etc.
-- *coin tosses*: same as cards, just needs to be formatted
+- *coin tosses*: you can simulate coin tosses with 1d2, but there's some code supporting coins specifically that just needs user interface and formatting
+- *advanced playing card rules*: support for dealers, player hands, managed discard piles, and multi-pack decks is planned but unimplemented
+- *other cards*: a lot of the playing cards code is reusable, but need to create lists of face cards, suits, etc. for other card systems (Tarot, etc)
 - *help command*: display help & examples in game (later)
-- *saving rolls for reuse*: planned, but needs lots of work
+- *saving rolls for reuse (macros)*: planned, but needs lots of work
 
 License
 -------
