@@ -16,6 +16,8 @@ Features
 
 **Exploding Dice**: with optional target numbers for [explosions](#special-rules)
 
+**Wild Dice**: supports Savage Worlds-style wild dice natively
+
 **Dice Pools**: Clattr supports game systems that use dice pools with target numbers
 
 **Fate Dice**: You can use fate dice too
@@ -59,6 +61,8 @@ Supported Games
 
 **Fate**: has special rules for fate dice
 
+**Savage Worlds**: has special rules for savage worlds wild dice
+
 **Almost Everything Else**: but if you can't use it with your favorite game, or it's kinda clunky, [let me know](https://github.com/nphyx/clattr-bot/issues)
 
 Bot Commands
@@ -83,6 +87,7 @@ You can also use Clattr via DM if you need to roll privately; just open a DM cha
 | `:r 3p6t4`       | roll a pool of 3d6, counting 4 or higher as a hit |
 | `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
 | `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
+| `:r w8+2`        | roll a d8 with a d4 wild die, add 2 to the greater of the two |
 
 
 Examples by Game System
@@ -130,11 +135,21 @@ Fate dice (type `f`) default to a pool of 4, so you can omit the dice count usua
 | `:r f+3 #athletics`                         | do an athletics check  |
 | `:r 6f+3 #extra dice`                       | if you need to roll more than 4 fate dice, you can do that  |
 
+### Savage Worlds
+
+Use `w` type (wild) dice for Trait tests. Note that `w` applies exploding rules automatically, but for exploding
+damage and other non-Trait rolls you need to use the '!' (exploding) modifier.
+
+| Example                                     | description |
+|---------------------------------------------|-------------|
+| `:r w8+2 #survival`                         | A ranger adding his Woodsman survival bonus |
+| `:r w10w8 #shooting, 3d6!+4 #damage`        | An Interface Zero agent with a smart weapon system, using his custom Wild Die size |
+
 
 Roll Syntax
 -----------
 
-When rolling, you can polyhedral dice (`d`), dice pools (`p`), or fate dice (`f`). You can also use plain numbers (for modifiers and other math).
+When rolling, you can polyhedral dice (`d`), dice pools (`p`), wild dice (`w`) or fate dice (`f`). You can also use plain numbers (for modifiers and other math).
 
 The format for dice `<number of dice><die type><die size><special modifiers>`. so:
 
@@ -200,6 +215,7 @@ For keeping the lowest / highest dice, you can keep more than one:
 | `:r 3d20k2`  | `@you rolled 22  :::  (3p20k2 [5,10,12] = 22)`  |
 | `:r 3p20l2`  | `@you rolled 14  :::  (3p20l2 [8,6,12] = 14)`   |
 
+
 ### Combining Rules
 
 Special rules can be combined, and are executed in order.
@@ -207,6 +223,15 @@ Special rules can be combined, and are executed in order.
 | roll         | result                                          |
 |--------------|-------------------------------------------------|
 | `:r 1d20!l1` | `@you rolled 8  :::  (1d20!l1 [20,8] = 8)`      |
+
+### Custom Wild Die sizes
+
+Some Savage Worlds settings provide edges or gear that increases your wild die size. You can add a second `w#` to a wild roll to modify your wild die.
+
+| roll         | result                                          |
+|--------------|-------------------------------------------------|
+| `:r w10w6`   | `@you rolled 22  :::  (w10w6 [5,6,3] = 9)`      |
+| `:r w4w8`    | `@you rolled 14  :::  (w6w6 [4,3,6] = 7)`       |
 
 ### Multiple Rolls
 
@@ -233,37 +258,39 @@ You can tag each roll in a multi-roll command:
 ### Full Breakdown
 ------------------
 
-|             | count | type  |  size | target | rule        | tag      | result |
-|-------------|-------|-------|-------|--------|-------------|----------|--------|
-|  accepts    | [int] | d,p,f | [int] | t[int] | !,k,l[int]  | +/-[int] |        |
-| **Examples**|       |       |       |        |             |          |        |
-| `3d6`       | 3     | d     | 6     |        | !           |          | roll 3 d6 and sum the result |
-| `1d20 #hit` | 1     | d     | 20    |        |             | hit      | roll 1d20, with the tag 'hit' |
-| `2d20k1`    | 2     | d     | 20    |        | k1          |          | roll 2 d20s, keep the highest |
-| `4d20l2`    | 2     | d     | 20    |        | l2          |          | roll 2 d20s, keep the lowest 2 |
-| `3d`        | 3     | d     | [6]   |        |             |          | roll 3 dice (defaulting to d6) |
-| `3d6!`      | 3     | d     | 6     |        | !           |          | roll 3 exploding d6s |
-| `3d6!5`     | 3     | d     | 6     |        | !5          |          | roll 3 exploding d6s that explode on 5 or 6 |
-| `3d6!m1`    | 3     | d     | 6     |        | !m1         |          | roll 3 exploding d6s, but they only explode once |
-| `3d6!5m1`   | 3     | d     | 6     |        | !5m1        |          | roll 3 exploding d6s that explode once on 5 or 6 |
-| `3d6!5m1k2` | 3     | d     | 6     |        | !5m1k2      |          | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
-| `3p6t4`     | 3     | p     | 6     | t4     |             |          | roll a pool of 3d6, counting 4 or higher as a hit |
-| `3p6`       | 3     | p     | 6     | [4]    |             |          | roll a pool of 3d6 (defaulting to target of 4-6) |
-| `3p`        | 3     | p     | [10]  | [8]    |             |          | roll a pool of 3 dice (defaulting to d10, target of 8-10) |
-| `3p6t4!`    | 3     | p     | 6     | t4     | !           |          | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
-| `4f`        | 4     | f     | [3]   |        |             |          | roll 4 fate dice |
-| `f`         | [4]   | f     | [3]   |        |             |          | roll fate dice, defaulting to 4 dice |
+|             | count | type    |  size | target | rule               | tag      | result |
+|-------------|-------|---------|-------|--------|--------------------|----------|--------|
+|  accepts    | [int] | d,p,f,w | [int] | t[int] | !,k,l[int],w[int]  | +/-[int] |        |
+| **Examples**|       |         |       |        |                    |          |        |
+| `3d6`       | 3     | d       | 6     |        | !                  |          | roll 3 d6 and sum the result |
+| `1d20 #hit` | 1     | d       | 20    |        |                    | hit      | roll 1d20, with the tag 'hit' |
+| `2d20k1`    | 2     | d       | 20    |        | k1                 |          | roll 2 d20s, keep the highest |
+| `4d20l2`    | 2     | d       | 20    |        | l2                 |          | roll 2 d20s, keep the lowest 2 |
+| `3d`        | 3     | d       | [6]   |        |                    |          | roll 3 dice (defaulting to d6) |
+| `3d6!`      | 3     | d       | 6     |        | !                  |          | roll 3 exploding d6s |
+| `3d6!5`     | 3     | d       | 6     |        | !5                 |          | roll 3 exploding d6s that explode on 5 or 6 |
+| `3d6!m1`    | 3     | d       | 6     |        | !m1                |          | roll 3 exploding d6s, but they only explode once |
+| `3d6!5m1`   | 3     | d       | 6     |        | !5m1               |          | roll 3 exploding d6s that explode once on 5 or 6 |
+| `3d6!5m1k2` | 3     | d       | 6     |        | !5m1k2             |          | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
+| `3p6t4`     | 3     | p       | 6     | t4     |                    |          | roll a pool of 3d6, counting 4 or higher as a hit |
+| `3p6`       | 3     | p       | 6     | [4]    |                    |          | roll a pool of 3d6 (defaulting to target of 4-6) |
+| `3p`        | 3     | p       | [10]  | [8]    |                    |          | roll a pool of 3 dice (defaulting to d10, target of 8-10) |
+| `3p6t4!`    | 3     | p       | 6     | t4     | !                  |          | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
+| `4f`        | 4     | f       | [3]   |        |                    |          | roll 4 fate dice |
+| `f`         | [4]   | f       | [3]   |        |                    |          | roll fate dice, defaulting to 4 dice |
+| `w8`        | [1]   | w       | 8     |        |                    |          | roll a d8 and a d4 wild die, both exploding |
+| `w8w6`      | [1]   | w       | 8     |        | w8                 |          | roll a d8 and a d6 wild die, both exploding |
 
-|            | required  | value            | description |
-|------------|-----------|------------------|-------------|
-| count      | no        | 1-30             | the number of dice to roll. polyhedral and pool dice (`d`, `p`) default to 1 die, fate (`f`) default to 4. |
-| type       | yes       | `d`, `p`, or `f` | roll as individual dice and add their values (`d`), as a pool and count the hits (`p`), or roll fate dice (`f`) |
-| size       | no        | 1-100            | the size of the die to roll - defaults to 6 for type `d`, 10 for type `p`, and 3 for fate (displayed as '+', ' ', and '-') |
-| target     | sometimes | any whole number | the target number to count as a hit, defaulting to roughly the top 1/4th to 1/3rd of the die size |
-| rule       | no        | `!`, `k`, or `l` | special rules for how the dice should be handled - exploding (`!`), keep the highest (`k`), keep the lowest (`l`) |
-| rule value | no        | any whole number | for exploding dice, any die equal or higher than this will explode, for keep lower/higher, the number of dice to keep |
-| max        | no        | `m`, 1-5         | for exploding dice, the number of times a die can explode (default 5, and can't be set higher than 5) | 
-| tag        | no        | `#`, text        | a tag to add to the roll group, can be almost any character except `,` |
+|            | required  | value                | description |
+|------------|-----------|----------------------|-------------|
+| count      | no        | 1-30                 | the number of dice to roll. polyhedral, wild and pool dice (`d`, `w`, `p`) default to 1 die, fate (`f`) default to 4. |
+| type       | yes       | `d`, `p`, `w` or `f` | roll as individual dice and add their values (`d`), as a pool and count the hits (`p`), or roll fate dice (`f`) |
+| size       | no        | 1-100                | the size of the die to roll - defaults to 6 for type `d` and `w`, 10 for type `p`, and 3 for fate (displayed as '+', ' ', and '-') |
+| target     | sometimes | any whole number     | the target number to count as a hit, defaulting to roughly the top 1/4th to 1/3rd of the die size |
+| rule       | no        | `!`, `k`, `w` or `l` | special rules for how the dice should be handled - exploding (`!`), keep the highest (`k`), keep the lowest (`l`) |
+| rule value | no        | any whole number     | for exploding dice, any die equal or higher than this will explode, for keep lower/higher, the number of dice to keep |
+| max        | no        | `m`, 1-5             | for exploding dice, the number of times a die can explode (default 5, and can't be set higher than 5) | 
+| tag        | no        | `#`, text            | a tag to add to the roll group, can be almost any character except `,` |
 
 Setup
 -----
