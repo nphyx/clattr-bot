@@ -1,4 +1,4 @@
-const { polyhedral, fate, coin, playingCards } = require('../../../lib/common/pieces')
+const { polyhedral, fate, coin, playingCards, shuffleDeck, playingCardPack } = require('../../../lib/common/pieces')
 const { checkPolyhedral, checkFate, checkCoin, checkPlayingCard, checkPlayingCards } = require('../helpers')
 
 describe('the dice::pieces module', () => {
@@ -19,6 +19,26 @@ describe('the dice::pieces module', () => {
     it('should generate a coin toss with its size & result', () => {
       for (let i = 0; i < 20; ++i)
         checkCoin(coin())
+    })
+  })
+  describe('makePlayingCardPack', () => {
+    it('should generate a playing card pack', () => {
+      const pack = playingCardPack()
+      checkPlayingCards(pack)
+    })
+  })
+  describe('shuffleDeck', () => {
+    it('should shuffle a deck', () => {
+      const pack = playingCardPack()
+      pack.muck = [...pack.muck, ...pack.stock]
+      const oldOrder = [...pack.stock]
+      pack.stock = []
+      shuffleDeck(pack)
+      pack.stock.length.should.eql(54)
+      pack.muck.length.should.eql(0)
+      let matches = 0
+      for (let i = 0; i < 54; ++i) if (pack.stock[i] === oldOrder[i]) matches += 1
+      matches.should.be.lessThan(54)
     })
   })
   describe('playingCards', () => {
