@@ -259,7 +259,7 @@ describe('the dice module', () => {
       (() => handleSet('z1d20')).should.throw(`I don't understand \`z1d20\``)
     })
     it('should complain if the string is nonsense', () => {
-      (() => handleSet('zebrahorse')).should.throw()
+      (() => handleSet('zebrahorse')).should.throw(`I don't understand \`zebrahorse\``)
     })
   })
   describe('handleRoll', () => {
