@@ -85,11 +85,11 @@ describe('dice::rolls module', () => {
     it('should return a wild dice result object', () => {
       // because of the complexity of wild dice + explosions we'll run several iterations and hope they all come up straight
       for (let i = 0; i < 10; ++i) {
-        const roll = wildRoll(1)
+        const roll = wildRoll(1, [], 8)
         roll.type.should.eql(rollTypes.WILD)
         roll.dice.should.be.an.Array()
         roll.dice.length.should.be.greaterThan(1)
-        roll.dice.forEach(d => checkWild(d, 6, 4))
+        roll.dice.forEach(d => checkWild(d, 8, 6))
         let wildResults = sumResults(roll.dice.filter(d => d.marker !== pieceMarkers.WILD && d.marker !== pieceMarkers.WILD_EXPLODED))
         let normalResults = sumResults(roll.dice.filter(d => d.marker === pieceMarkers.WILD || d.marker === pieceMarkers.WILD_EXPLODED))
         roll.result.should.eql(Math.max(wildResults, normalResults), `wild results: ${wildResults}, normalResults: ${normalResults}`)

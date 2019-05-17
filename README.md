@@ -63,7 +63,7 @@ Quick Examples:
 | `:r 3p6t4`       | roll a pool of 3d6, counting 4 or higher as a hit |
 | `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
 | `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
-| `:r w8+2`        | roll a d8 with a d4 wild die, add 2 to the greater of the two |
+| `:r w8+2`        | roll a d8 with a d6 wild die, add 2 to the greater of the two |
 | `:c 2`           | draw 2 cards from the guild deck |
 | `:c 2 foo`       | draw 2 cards from the deck named 'foo' |
 | `:c shuffle`     | shuffle the guild deck |
