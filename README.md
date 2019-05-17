@@ -1,4 +1,6 @@
 Clattr Bot
+[![Build Status](https://travis-ci.org/nphyx/clattr-bot.svg?branch=master)](https://travis-ci.org/nphyx/clattr-bot)
+[![Coverage Status](https://coveralls.io/repos/github/nphyx/clattr-bot/badge.svg?branch=master)](https://coveralls.io/github/nphyx/clattr-bot?branch=master)
 ==========
 
 An experimental dice bot for Discord.
