@@ -51,6 +51,15 @@ const mockFatePool = {
 }
 const fatePoolString = `3 [ ${strings.fateDieFaces.get(1)}, ${strings.fateDieFaces.get(-1)}, ${strings.fateDieFaces.get(0)} ]`
 
+const mockWildDice = {
+  string: 'w6',
+  dice: [mockDie(6, 1), mockDie(4, 4, pieceMarkers.WILD_EXPLODED), mockDie(4, 3, pieceMarkers.WILD)],
+  type: rollTypes.WILD,
+  op: combinatorTypes.ADD,
+  result: 7
+}
+const wildDiceString  = `w6 [ 1, **4**:four_leaf_clover:, 3:shamrock: ]`
+
 const mockModifier = {
   string: '3',
   type: rollTypes.MOD,
@@ -108,6 +117,12 @@ describe('dice::format module', () => {
     it('should handle kept dice', () => {
       formatPieceWithMarker(mockDie(10, 3, pieceMarkers.KEPT)).should.eql('**3**')
     })
+    it('should handle wild dice', () => {
+      formatPieceWithMarker(mockDie(10, 3, pieceMarkers.WILD)).should.eql('3:shamrock:')
+    })
+    it('should handle exploded wild dice', () => {
+      formatPieceWithMarker(mockDie(10, 3, pieceMarkers.WILD_EXPLODED)).should.eql('**3**:four_leaf_clover:')
+    })
     it('should handle exploded dice', () => {
       formatPieceWithMarker(mockDie(10, 3, pieceMarkers.EXPLODED)).should.eql('**3**:boom:')
     })
@@ -128,6 +143,9 @@ describe('dice::format module', () => {
     })
     it('should format a fate pool group', () => {
       formatGroup(mockFatePool).should.eql(fatePoolString)
+    })
+    it('should format a wild dice group', () => {
+      formatGroup(mockWildDice).should.eql(wildDiceString)
     })
     it('should format a modifier group', () => {
       formatGroup(mockModifier).should.eql('3')
