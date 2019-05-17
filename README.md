@@ -8,15 +8,15 @@ An experimental dice bot for Discord.
 Features
 --------
 
-**Multiple Rolls**: [make multiple rolls on a single line](wiki/#multiple-rolls), separated by a comma
+**Multiple Rolls**: [make multiple rolls on a single line](https://github.com/nphyx/clattr-bot/wiki/#multiple-rolls), separated by a comma
 
-**Math**: [add, subtract, multiply and divide dice results and modifiers](wiki/#using-math-operators)
+**Math**: [add, subtract, multiply and divide dice results and modifiers](https://github.com/nphyx/clattr-bot/wiki/#using-math-operators)
 
-**Tag Your Rolls**: [label your rolls with tags](wiki/#tagging-rolls), so the results will be marked
+**Tag Your Rolls**: [label your rolls with tags](https://github.com/nphyx/clattr-bot/wiki/#tagging-rolls), so the results will be marked
 
-**Keeping & Discarding Rolls**: [roll multiple dice and keep the lowest or highest](wiki/#special-rules)
+**Keeping & Discarding Rolls**: [roll multiple dice and keep the lowest or highest](https://github.com/nphyx/clattr-bot/wiki/#special-rules)
 
-**Exploding Dice**: with optional target numbers for [explosions](wiki/#special-rules)
+**Exploding Dice**: with optional target numbers for [explosions](https://github.com/nphyx/clattr-bot/wiki/#special-rules)
 
 **Wild Dice**: supports Savage Worlds-style wild dice natively
 
