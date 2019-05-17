@@ -8,15 +8,15 @@ An experimental dice bot for Discord.
 Features
 --------
 
-**Multiple Rolls**: [make multiple rolls on a single line](#multiple-rolls), separated by a comma
+**Multiple Rolls**: [make multiple rolls on a single line](wiki/#multiple-rolls), separated by a comma
 
-**Math**: [add, subtract, multiply and divide dice results and modifiers](#using-math-operators)
+**Math**: [add, subtract, multiply and divide dice results and modifiers](wiki/#using-math-operators)
 
-**Tag Your Rolls**: [label your rolls with tags](#tagging-rolls), so the results will be marked
+**Tag Your Rolls**: [label your rolls with tags](wiki/#tagging-rolls), so the results will be marked
 
-**Keeping & Discarding Rolls**: [roll multiple dice and keep the lowest or highest](#special-rules)
+**Keeping & Discarding Rolls**: [roll multiple dice and keep the lowest or highest](wiki/#special-rules)
 
-**Exploding Dice**: with optional target numbers for [explosions](#special-rules)
+**Exploding Dice**: with optional target numbers for [explosions](wiki/#special-rules)
 
 **Wild Dice**: supports Savage Worlds-style wild dice natively
 
