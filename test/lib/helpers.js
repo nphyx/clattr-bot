@@ -1,4 +1,4 @@
-const { pieceTypes, playingCardFaces, playingCardSuits } = require('../../lib/common/constants')
+const { pieceMarkers, pieceTypes, playingCardFaces, playingCardSuits } = require('../../lib/common/constants')
 
 const { JACK, KING, QUEEN, ACE, JOKER } = playingCardFaces
 const { HEARTS, DIAMONDS, SPADES, CLUBS } = playingCardSuits
@@ -10,6 +10,18 @@ module.exports.checkPolyhedral = (die, size) => {
   die.type.should.eql(pieceTypes.POLY)
   die.result.should.be.lessThan(size + 1)
   die.result.should.be.greaterThan(0)
+}
+
+module.exports.checkWild = (die, size, wildSize) => {
+  die.type.should.eql(pieceTypes.POLY)
+  die.result.should.be.greaterThan(0)
+  if (die.marker === pieceMarkers.WILD || die.marker == pieceMarkers.WILD_EXPLODED) {
+    die.size.should.eql(wildSize)
+    die.result.should.be.lessThan(wildSize + 1)
+  } else {
+    die.size.should.eql(size)
+    die.result.should.be.lessThan(size + 1)
+  }
 }
 
 module.exports.checkFate = (die) => {
