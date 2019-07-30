@@ -5,6 +5,10 @@ const commands = require('./lib/commands')
 client.once('ready', () => {
   console.log('Ready!')
   console.log(`Add me at https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8192`)
+  Promise.all([...client.guilds.values()].map(guild => {
+    if (guild.systemChannel) return guild.systemChannel.send('I\'m ready to roll! try `/clattr help` for usage.')
+    return Promise.resolve()
+  }))
 })
 
 client.on('message', async (message) => {
