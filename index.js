@@ -15,7 +15,6 @@ client.on('message', async (message) => {
     } catch (e) {
       console.error('could not delete message:', e.message)
     } try {
-      console.log(`got target '${response.target}', body '${response.body}'`)
       let dm
       switch (response.target) {
         case 'channel':
@@ -28,7 +27,7 @@ client.on('message', async (message) => {
           break;
       }
     } catch (e) {
-      console.log('could not send message:', e)
+      console.error('could not send message:', e)
     }
   }
 })
