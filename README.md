@@ -94,7 +94,6 @@ Roadmap
 - *coin tosses*: you can simulate coin tosses with 1d2, but there's some code supporting coins specifically that just needs user interface and formatting
 - *advanced playing card rules*: support for dealers, player hands, managed discard piles, and multi-pack decks is planned but unimplemented
 - *other cards*: a lot of the playing cards code is reusable, but need to create lists of face cards, suits, etc. for other card systems (Tarot, etc)
-- *help command*: display help & examples in game (later)
 - *saving rolls for reuse (macros)*: planned, but needs lots of work
 
 License
