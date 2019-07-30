@@ -49,6 +49,14 @@ describe('the parser module', () => {
     })
   })
 
+  describe('dropExclude', () => {
+    it('should match until it reaches an excluded character, and drop that character', () => {
+      const [matched, remaining] = parser.dropExclude('abcdef', 'edf')
+      matched.should.eql('abc')
+      remaining.should.eql('ef')
+    })
+  })
+
   describe('takeInteger', () => {
     it('should take an integer', () => {
       const [matched, remaining] = parser.takeInteger('134abc')

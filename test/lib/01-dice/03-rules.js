@@ -60,9 +60,23 @@ describe('the dice::rules module', () => {
         dice[0]
       ])
     })
+    it('should default to one kept die', () => {
+      const dice = [mockDie(10, 10), mockDie(10, 3)]
+      const ruleSet = [[ruleTypes.KEEP_HIGH]]
+      apply(dice, ruleSet).should.deepEqual([
+        dice[0]
+      ])
+    })
     it('should apply a keep lower rule', () => {
       const dice = [mockDie(10, 10), mockDie(10, 3)]
       const ruleSet = [[ruleTypes.KEEP_LOW, 1]]
+      apply(dice, ruleSet).should.deepEqual([
+        dice[1]
+      ])
+    })
+    it('should default to one keep lower die', () => {
+      const dice = [mockDie(10, 10), mockDie(10, 3)]
+      const ruleSet = [[ruleTypes.KEEP_LOW]]
       apply(dice, ruleSet).should.deepEqual([
         dice[1]
       ])

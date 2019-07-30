@@ -205,6 +205,9 @@ describe('the dice module', () => {
     it('should complain if you try to roll a huge die', () => {
       (() => handleGroup('1d1000')).should.throw()
     })
+    it('should not complain if a large number is a modifier', () => {
+      (() => handleGroup('1000')).should.not.throw()
+    })
     it('should complain if input is garbage', () => {
       (() => handleGroup(null)).should.throw()
     })
@@ -252,14 +255,17 @@ describe('the dice module', () => {
       const set = handleSet('3d1-2d1*10d1/5 #maaath')
       set.result.should.eql(2)
     })
+    it('should complain when empty', () => {
+      handleSet.bind(undefined, ' ').should.throw()
+    })
     it('should complain if it does not recognize a combinator', () => {
-      (() => handleSet('&')).should.throw()
+      handleSet.bind(undefined, '&').should.throw()
     })
     it('should complain if the operation is nonsense', () => {
-      (() => handleSet('z1d20')).should.throw(`I don't understand \`z1d20\``)
+      handleSet.bind(undefined, 'z1d20').should.throw(`I don't understand \`z1d20\``)
     })
     it('should complain if the string is nonsense', () => {
-      (() => handleSet('zebrahorse')).should.throw(`I don't understand \`zebrahorse\``)
+      handleSet.bind(undefined, 'zebrahorse').should.throw(`I don't understand \`zebrahorse\``)
     })
   })
   describe('handleRoll', () => {
