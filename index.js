@@ -6,7 +6,7 @@ client.once('ready', () => {
   console.log('Ready!')
   console.log(`Add me at https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8192`)
   Promise.all([...client.guilds.values()].map(guild => {
-    if (guild.systemChannel) return guild.systemChannel.send('I\'m ready to roll! try `/clattr help` for usage.')
+    if (guild.systemChannel) return guild.systemChannel.send('I\'m ready to roll! try `!clattr help` for usage.')
     return Promise.resolve()
   }))
 })
@@ -25,7 +25,7 @@ client.on('message', async (message) => {
           await message.channel.send(`<@${message.author.id}> ${response.body}`)
           break;
         case 'dm':
-          if (message.channel.type !== 'dm') await message.channel.send(`<@${message.author.id}> I sent you a DM ::: *${response.command} ${response.params}*.`)
+          if (message.channel.type !== 'dm') await message.channel.send(`<@${message.author.id}> I sent you a DM ::: *${response.params}*.`)
           dm = await message.author.createDM()
           await dm.send(`${response.body}`)
           break;

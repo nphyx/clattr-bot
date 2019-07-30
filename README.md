@@ -52,24 +52,24 @@ Quick Examples:
 
 | Example          | result |
 |------------------|--------|
-| `:r d20 #hit`    | roll 1d20, with the tag 'hit' |
-| `:r 2d20k1+3`    | roll 2 d20s, keep the highest, and add 3 |
-| `:r 4d20l2-1`    | roll 4 d20s, keep the lowest 2, and subtract 3 |
-| `:r 3d6!`        | roll 3 exploding d6s |
-| `:r 3d6!5`       | roll 3 exploding d6s that explode on 5 or 6 |
-| `:r 3d6!m1`      | roll 3 exploding d6s, but they only explode once |
-| `:r 3d6!5m1`     | roll 3 exploding d6s that explode once on 5 or 6 |
-| `:r 3d6!5m1k2`   | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
-| `:r 3p6t4`       | roll a pool of 3d6, counting 4 or higher as a hit |
-| `:r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
-| `:r 4f+3`        | roll 4 fate dice, add 3 to the result |
-| `:r w8+2`        | roll a d8 with a d6 wild die, add 2 to the greater of the two |
-| `:c 2`           | draw 2 cards from the guild deck |
-| `:c 2 foo`       | draw 2 cards from the deck named 'foo' |
-| `:c shuffle`     | shuffle the guild deck |
-| `:c shuffle foo` | shuffle the guild deck |
-| `:c list`        | list all decks in play |
-| `:c remove foo`  | remove the deck named 'foo' from play |
+| `!r d20 #hit`    | roll 1d20, with the tag 'hit' |
+| `!r 2d20k1+3`    | roll 2 d20s, keep the highest, and add 3 |
+| `!r 4d20l2-1`    | roll 4 d20s, keep the lowest 2, and subtract 3 |
+| `!r 3d6!`        | roll 3 exploding d6s |
+| `!r 3d6!5`       | roll 3 exploding d6s that explode on 5 or 6 |
+| `!r 3d6!m1`      | roll 3 exploding d6s, but they only explode once |
+| `!r 3d6!5m1`     | roll 3 exploding d6s that explode once on 5 or 6 |
+| `!r 3d6!5m1k2`   | roll 3 exploding d6s that explode once on 5 or 6, keep the highest 2 |
+| `!r 3p6t4`       | roll a pool of 3d6, counting 4 or higher as a hit |
+| `!r 3p6t4!`      | roll a pool of 3d6, counting 4 or higher as a hit, exploding on 6 |
+| `!r 4f+3`        | roll 4 fate dice, add 3 to the result |
+| `!r w8+2`        | roll a d8 with a d6 wild die, add 2 to the greater of the two |
+| `!c 2`           | draw 2 cards from the guild deck |
+| `!c 2 foo`       | draw 2 cards from the deck named 'foo' |
+| `!c shuffle`     | shuffle the guild deck |
+| `!c shuffle foo` | shuffle the guild deck |
+| `!c list`        | list all decks in play |
+| `!c remove foo`  | remove the deck named 'foo' from play |
 
 Check out the [wiki](https://github.com/nphyx/clattr-bot/wiki) for full documentation, and the [examples section](https://github.com/nphyx/clattr-bot/wiki#examples-by-game-system) for more usage examples.
 
@@ -87,6 +87,15 @@ to run it on your own computer for now, or know someone who does. Will set up a 
 6) copy .env.example to .env and fill out the environment variables
 7) run the bot, in Linux: `npm start`
 8) start playing!
+
+Roadmap
+-------
+
+- *coin tosses*: you can simulate coin tosses with 1d2, but there's some code supporting coins specifically that just needs user interface and formatting
+- *advanced playing card rules*: support for dealers, player hands, managed discard piles, and multi-pack decks is planned but unimplemented
+- *other cards*: a lot of the playing cards code is reusable, but need to create lists of face cards, suits, etc. for other card systems (Tarot, etc)
+- *help command*: display help & examples in game (later)
+- *saving rolls for reuse (macros)*: planned, but needs lots of work
 
 License
 -------
