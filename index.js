@@ -22,7 +22,7 @@ client.on('message', async (message) => {
           await message.channel.send(`<@${message.author.id}> ${response.body}`)
           break;
         case 'dm':
-          if (message.channel.type !== 'dm') await message.channel.send(`<@${message.author.id}> I sent you a DM.`)
+          if (message.channel.type !== 'dm') await message.channel.send(`<@${message.author.id}> I sent you a DM ::: *${response.command} ${response.params}*.`)
           dm = await message.author.createDM()
           await dm.send(`${response.body}`)
           break;
