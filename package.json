@@ -1,6 +1,6 @@
 {
   "name": "clattr-bot",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "An experimental dice bot for discord.",
   "main": "index.js",
   "dependencies": {
