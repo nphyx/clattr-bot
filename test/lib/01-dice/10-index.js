@@ -241,6 +241,13 @@ describe('the dice module', () => {
       g1.type.should.eql(rollTypes.MOD)
       set.result.should.eql(g0.result + 4)
     })
+    it('should handle modifiers of zero', () => {
+      // this is a regression test for the group handler turning zeroes into undefined
+      handleSet('1d1+0').result.should.eql(1)
+      handleSet('1d1-0').result.should.eql(1)
+      handleSet('1d1/0').result.should.eql(Infinity)
+      handleSet('1d1*0').result.should.eql(0)
+    })
     it('should gracefully handle whitespace', () => {
       const set = handleSet(' 1d4 +3d6')
       const [g0, g1] = set.groups
